@@ -75,5 +75,5 @@
     "conventionalcommits",
     "nvmrc"
   ],
-  "ignorePaths": ["node_modules/**", "build/**", "coverage/**", "**/*.snap", "package-lock.json", "docs/superpowers/**", "src/tests/fixtures/**"]
+  "ignorePaths": ["node_modules/**", "build/**", "coverage/**", "**/*.snap", "package-lock.json", "docs/superpowers/**", "src/tests/fixtures/**", ".claude/**"]
 }
