@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import path from "node:path";
 import { spawn } from "node:child_process";
 import fsAsync from "node:fs/promises";

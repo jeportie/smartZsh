@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import xterm from "@xterm/headless";
 
 import { CommandManager } from "../../isterm/commandManager.js";

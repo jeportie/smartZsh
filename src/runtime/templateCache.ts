@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import type { Dirent } from "node:fs";
 import fsAsync from "node:fs/promises";
 import { millisecond } from "../utils/time.js";

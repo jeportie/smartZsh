@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { calculateReplacement, applyReplacement } from "../../runtime/replacement.js";
 import { Suggestion } from "../../runtime/model.js";
 import { CommandToken } from "../../runtime/parser.js";

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import figSpecList, {
   diffVersionedCompletions as figVersionedSpeclist,
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

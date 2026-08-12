@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { getConfig } from "../utils/config.js";
 import log from "../utils/log.js";
 import { Shell } from "../utils/shell.js";

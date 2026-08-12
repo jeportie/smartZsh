@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { parseCommand } from "../../runtime/parser.js";
 import { Shell } from "../../utils/shell.js";
 
@@ -61,9 +58,7 @@ describe(`parseCommand`, () => {
 });
 
 describe(`multi-shell whitespace escaping`, () => {
-  const shellEscapeData: { shell: Shell; command: string }[] = [
-    { shell: Shell.Zsh, command: `cmd dir\\ name` },
-  ];
+  const shellEscapeData: { shell: Shell; command: string }[] = [{ shell: Shell.Zsh, command: `cmd dir\\ name` }];
 
   shellEscapeData.forEach(({ shell, command }) => {
     test(`[${shell}] escaped space: ${command}`, () => {

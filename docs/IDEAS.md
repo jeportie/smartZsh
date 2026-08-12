@@ -6,7 +6,7 @@ Each gets its own brainstorm → spec → plan when picked up.
 ## History (requested 2026-08-12)
 
 1. **Keep the user's existing shell history in the session.** Today the wrapped zsh only surfaces the
-   *current* session's history — ↑ doesn't show the pre-existing `~/.zsh_history`. Most likely a
+   _current_ session's history — ↑ doesn't show the pre-existing `~/.zsh_history`. Most likely a
    `ZDOTDIR`/`HISTFILE`-timing interaction in the shell integration (`shell/shellIntegration-*.zsh` +
    `convertToPtyEnv`): the wrapped shell isn't loading the real HISTFILE. Needs systematic-debugging.
 2. **History-based autocomplete suggestions.** Never implemented upstream: `historyTemplate()` in

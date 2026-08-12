@@ -35,11 +35,11 @@ You can also start a session on demand by running `smartzsh`, and leave it with 
 
 ## Usage
 
-| Action                        | Command        |
-| ----------------------------- | -------------- |
-| Start a session               | `smartzsh`     |
-| Stop a session                | `exit`         |
-| Check if inside a session     | `smartzsh -c`  |
+| Action                    | Command       |
+| ------------------------- | ------------- |
+| Start a session           | `smartzsh`    |
+| Stop a session            | `exit`        |
+| Check if inside a session | `smartzsh -c` |
 
 ### Keybindings
 

@@ -1,14 +1,8 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { jest } from "@jest/globals";
 import type { ShellUse } from "@microsoft/shell-use/test";
 import type { Shell } from "@microsoft/shell-use";
 import { closeSession, startSession, startShell } from "./helpers";
 
 const shell: Shell = "zsh";
-
-jest.retryTimes(2, { logErrorsBeforeRetry: true });
 
 describe("status checks", () => {
   describe("inside smartzsh session", () => {

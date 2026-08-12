@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { EventEmitter } from "node:events";
 import process from "node:process";
 import path from "node:path";
@@ -64,7 +61,6 @@ export class ISTerm implements IPty {
   readonly #ptyEmitter: EventEmitter;
   readonly #term: xterm.Terminal;
   readonly #commandManager: CommandManager;
-  readonly #shell: Shell;
   #pendingData: string[] = [];
   #pendingCursorPositionReports = 0;
 
@@ -99,7 +95,6 @@ export class ISTerm implements IPty {
     this.#ptyEmitter = new EventEmitter();
     this.#term.parser.registerOscHandler(IsTermOscPs, (data) => this._handleIsSequence(data));
     this.#commandManager = new CommandManager(this.#term, shell);
-    this.#shell = shell;
     this.#term.buffer.onBufferChange((buffer) => this.#ptyEmitter.emit(ISTermOnBufferChangeEvent, buffer.type));
 
     this.#pty.onData((data) => {
@@ -147,7 +142,7 @@ export class ISTerm implements IPty {
 
   on(event: "data", listener: (data: string) => void): void;
   on(event: "exit", listener: (exitCode: number, signal?: number | undefined) => void): void;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   on(_event: unknown, _listener: unknown): void {
     throw new Error("Method not implemented as deprecated in node-pty.");
   }

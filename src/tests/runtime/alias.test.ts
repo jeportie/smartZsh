@@ -1,25 +1,24 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { jest } from "@jest/globals";
+import { vi } from "vitest";
 import { Shell } from "../../utils/shell";
 
-const mockExecuteShellCommand = jest.fn();
-const mockGetConfig = jest.fn();
+const { mockExecuteShellCommand, mockGetConfig } = vi.hoisted(() => ({
+  mockExecuteShellCommand: vi.fn(),
+  mockGetConfig: vi.fn(),
+}));
 
-jest.unstable_mockModule("../../runtime/utils.js", () => ({
+vi.mock("../../runtime/utils.js", () => ({
   buildExecuteShellCommand: () => mockExecuteShellCommand,
   getShellWhitespaceEscapeChar: () => "\\",
 }));
 
-jest.unstable_mockModule("../../utils/config.js", () => ({
+vi.mock("../../utils/config.js", () => ({
   getConfig: mockGetConfig,
 }));
 
-const { aliasExpand, loadAliases } = await import("../../runtime/alias.js");
+import { aliasExpand, loadAliases } from "../../runtime/alias.js";
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("aliasExpand", () => {

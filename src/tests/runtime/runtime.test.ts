@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import fs from "node:fs";
 
 import { getSuggestions } from "../../runtime/runtime.js";
@@ -60,7 +57,7 @@ const subcommandSuggestionsData = [
   },
   { name: "gitStat", command: "git stat", maxSuggestions: 1, expectedNames: ["status"], expectedIcons: [SuggestionIcons.Subcommand] }, // subcommand generator
   { name: "gitStatus", command: "git status ", expectedNames: ["demo.ts"] }, // script + post-process generator
-  { name: "ls", command: "ls ", expectedNames: [".eslintrc.cjs"], expectedIcons: [SuggestionIcons.File] }, // file generator
+  { name: "ls", command: "ls ", expectedNames: ["package.json"], expectedIcons: [SuggestionIcons.File] }, // file generator
   { name: "cd", command: "cd ", expectedNames: ["docs/"], expectedIcons: [SuggestionIcons.Folder] }, // folder generator
   { name: "find", command: "find -", maxSuggestions: 1, expectedIcons: [SuggestionIcons.Option] }, // filtering file generator
   { name: "goTool", command: "go build -buildmode ", maxSuggestions: 1, expectedNames: ["archive"] }, // script + split-on generator

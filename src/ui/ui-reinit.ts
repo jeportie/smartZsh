@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import chalk from "chalk";
 import { unpackResources } from "../utils/node.js";
 import { createShellConfigs } from "../utils/shell.js";

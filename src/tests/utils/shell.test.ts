@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { getShellConfig, getShellSourceCommand, Shell } from "../../utils/shell.js";
 
 describe("getShellConfig (golden master)", () => {

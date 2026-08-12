@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import ansi from "ansi-escapes";
 
 import type { ISTerm } from "../isterm/pty.js";

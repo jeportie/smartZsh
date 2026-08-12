@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { resetColor } from "../utils/ansi.js";
 import wrapAnsi from "wrap-ansi";
 import chalk from "chalk";

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import type { ISTerm } from "../../isterm/pty.js";
 import type { SuggestionBlob } from "../../runtime/model.js";
 import { Shell } from "../../utils/shell.js";

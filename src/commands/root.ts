@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { Shell, supportedShells as shells } from "../utils/shell.js";
 import { inferShell } from "../utils/shell.js";
 import { loadConfig } from "../utils/config.js";

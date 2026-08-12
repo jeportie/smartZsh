@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { index } from "../../utils/ansi.js";
 import { StdioProxy } from "../../ui/stdioProxy.js";
 

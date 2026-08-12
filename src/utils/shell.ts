@@ -1,14 +1,10 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import process from "node:process";
 import path from "node:path";
 import fs from "node:fs";
 import os from "node:os";
 import fsAsync from "node:fs/promises";
-import { shellResourcesPath, initResourcesPath, xdgConfigPath } from "./constants.js";
+import { shellResourcesPath, initResourcesPath } from "./constants.js";
 import { KeyPressEvent } from "../ui/suggestionManager.js";
-import log from "./log.js";
 
 export enum Shell {
   Zsh = "zsh",
@@ -32,7 +28,6 @@ export const checkShellConfigs = (): Shell[] => {
   }
   return shellsWithoutConfigs;
 };
-
 
 export const checkShellConfigPlugin = async () => {
   const shellsWithoutPlugin: Shell[] = [];
