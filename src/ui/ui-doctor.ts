@@ -22,7 +22,7 @@ const renderLegacyConfigIssues = async (): Promise<number> => {
       process.stderr.write(chalk.red("  - ") + shell + "\n");
     });
     process.stderr.write(
-      chalk.yellow("  remove any inshellisense configurations from your shell profile and re-add them following the instructions in the README\n"),
+      chalk.yellow("  remove any smartzsh configurations from your shell profile and re-add them following the instructions in the README\n"),
     );
     return 1;
   } else {

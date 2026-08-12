@@ -324,9 +324,9 @@ export const getShellConfig = (shell: Shell): string => {
     case Shell.Zsh:
       return `if [[ -z "\${ISTERM}" && $- = *i* && $- != *c* && -z "\${VSCODE_RESOLVING_ENVIRONMENT}" ]]; then
   if [[ -o login ]]; then
-    is -s zsh --login ; exit
+    smartzsh -s zsh --login ; exit
   else
-    is -s zsh ; exit
+    smartzsh -s zsh ; exit
   fi
 fi`;
     case Shell.Bash:

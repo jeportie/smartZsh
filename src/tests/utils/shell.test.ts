@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getShellSourceCommand, hasLegacyShellConfig, Shell, shouldFlagLegacyResourcePlugin } from "../../utils/shell.js";
+import { getShellConfig, getShellSourceCommand, hasLegacyShellConfig, Shell, shouldFlagLegacyResourcePlugin } from "../../utils/shell.js";
+
+describe("getShellConfig (golden master)", () => {
+  test("zsh re-exec snippet", () => {
+    expect(getShellConfig(Shell.Zsh)).toMatchSnapshot();
+  });
+});
 
 describe("getShellSourceCommand", () => {
   test.each([

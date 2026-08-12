@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getShellConfig (golden master) zsh re-exec snippet 1`] = `
+"if [[ -z "\${ISTERM}" && $- = *i* && $- != *c* && -z "\${VSCODE_RESOLVING_ENVIRONMENT}" ]]; then
+  if [[ -o login ]]; then
+    smartzsh -s zsh --login ; exit
+  else
+    smartzsh -s zsh ; exit
+  fi
+fi"
+`;

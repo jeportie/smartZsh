@@ -98,7 +98,7 @@ const configSchema = {
   additionalProperties: false,
 };
 
-const rcFile = ".inshellisenserc";
+const rcFile = ".smartzshrc";
 const rcPath = path.join(os.homedir(), rcFile);
 
 const configPaths = [rcPath, xdgConfigPath];

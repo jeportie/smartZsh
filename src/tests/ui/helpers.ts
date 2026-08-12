@@ -36,7 +36,9 @@ export const closeSession = async (terminal: ShellUse | undefined): Promise<void
   }
 };
 
-const baseEnv = { ISTERM: "0", ISTERM_TESTING: "0", ZDOTDIR: cleanZshFixtureDir };
+// npm link installs the `smartzsh` bin alongside the node running these tests, so make it resolvable
+const nodeBinDir = path.dirname(process.execPath);
+const baseEnv = { ISTERM: "0", ISTERM_TESTING: "0", ZDOTDIR: cleanZshFixtureDir, PATH: `${nodeBinDir}:${process.env.PATH ?? ""}` };
 const ephemeralTerminal = (): ShellUse => {
   const terminal = ShellUse.ephemeral(undefined, { timeouts });
   trackTerminal(terminal);
