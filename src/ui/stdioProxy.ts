@@ -12,12 +12,12 @@ import type { KeyPressEvent } from "./suggestionManager.js";
 const cursorPositionReport = new RegExp("\\u001B\\[\\??\\d+;\\d+R", "g");
 // eslint-disable-next-line no-control-regex
 const partialCursorPositionReport = new RegExp("\\u001B\\[\\??\\d*(?:;\\d*)?$");
-// blocks win32 input mode, the kitty keyboard protocol and xterm modifyOtherKeys from upgrading input & breaking node's readline
+// blocks the kitty keyboard protocol and xterm modifyOtherKeys from upgrading input & breaking node's readline
 // eslint-disable-next-line no-control-regex
-const keyEncodingUpgrade = new RegExp("\\u001B\\[(?:\\?9001([hl])|\\?u|[=><][\\d;]*u|>[\\d;]*m)", "g");
+const keyEncodingUpgrade = new RegExp("\\u001B\\[(?:\\?u|[=><][\\d;]*u|>[\\d;]*m)", "g");
 // a trailing portion of a key encoding upgrade
 // eslint-disable-next-line no-control-regex
-const partialKeyEncodingUpgrade = new RegExp("^\\u001B(?:\\[(?:\\?(?:9(?:0(?:0(?:1)?)?)?)?|[=><][\\d;]*)?)?$");
+const partialKeyEncodingUpgrade = new RegExp("^\\u001B(?:\\[(?:\\?|[=><][\\d;]*)?)?$");
 const carriageReturn = "\r".charCodeAt(0);
 
 const getPartialKeyEncodingUpgrade = (input: string): string => {
@@ -44,20 +44,17 @@ const replaceBareLineFeeds = (output: string): string => {
 
 type StdioProxyOptions = {
   onCursorPositionReport?: (data: string) => void;
-  onWin32InputMode?: (enabled: boolean) => void;
 };
 
 export class StdioProxy {
   readonly #keypressInput = new PassThrough();
   #decoder = new StringDecoder("utf8");
   readonly #onCursorPositionReport: (data: string) => void;
-  readonly #onWin32InputMode: (enabled: boolean) => void;
   #pendingInput = "";
   #pendingOutput = "";
 
-  constructor({ onCursorPositionReport = () => {}, onWin32InputMode = () => {} }: StdioProxyOptions = {}) {
+  constructor({ onCursorPositionReport = () => {} }: StdioProxyOptions = {}) {
     this.#onCursorPositionReport = onCursorPositionReport;
-    this.#onWin32InputMode = onWin32InputMode;
     readline.emitKeypressEvents(this.#keypressInput as unknown as NodeJS.ReadStream);
   }
 
@@ -76,12 +73,7 @@ export class StdioProxy {
     this.#pendingOutput = getPartialKeyEncodingUpgrade(input);
     const completeInput = this.#pendingOutput.length === 0 ? input : input.slice(0, -this.#pendingOutput.length);
 
-    return replaceBareLineFeeds(
-      completeInput.replace(keyEncodingUpgrade, (_sequence, win32Mode?: string) => {
-        if (win32Mode != null) this.#onWin32InputMode(win32Mode === "h");
-        return "";
-      }),
-    );
+    return replaceBareLineFeeds(completeInput.replace(keyEncodingUpgrade, () => ""));
   }
 
   dispose(): string {

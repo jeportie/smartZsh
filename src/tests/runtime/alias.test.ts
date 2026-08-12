@@ -32,25 +32,9 @@ describe("aliasExpand", () => {
 
     const { aliasExpand: aliasExpandDisabled, loadAliases: loadAliasesDisabled } = await import("../../runtime/alias.js");
 
-    await loadAliasesDisabled(Shell.Bash);
+    await loadAliasesDisabled(Shell.Zsh);
     // Should return the original token unchanged since aliases are disabled
     expect(aliasExpandDisabled([{ token: "glo", complete: true, isOption: false, tokenLength: 3 }])).toMatchSnapshot();
-  });
-
-  test("expand on bash aliases", async () => {
-    mockGetConfig.mockReturnValue({ useAliases: true });
-    mockExecuteShellCommand.mockReturnValue({
-      stdout: `alias glo='git log --oneline'
-alias la='echo '\\''lo'\\'' '\\''la'\\'''
-alias ls='ls --color=auto'`,
-      status: 0,
-    });
-
-    await loadAliases(Shell.Bash);
-    expect(aliasExpand([{ token: "glo", complete: false, isOption: false, tokenLength: 3 }])).toMatchSnapshot();
-    expect(aliasExpand([{ token: "la", complete: true, isOption: false, tokenLength: 2 }])).toMatchSnapshot();
-    expect(aliasExpand([{ token: "git", complete: true, isOption: false, tokenLength: 3 }])).toMatchSnapshot();
-    expect(aliasExpand([{ token: "ls", complete: true, isOption: false, tokenLength: 2 }])).toMatchSnapshot();
   });
 
   test("expand on zsh aliases", async () => {

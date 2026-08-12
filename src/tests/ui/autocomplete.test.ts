@@ -13,7 +13,7 @@ jest.retryTimes(2, { logErrorsBeforeRetry: true });
 describe("resize recovery", () => {
   let terminal: ShellUse;
   beforeEach(async () => {
-    terminal = await startSession({ label: "bash-resize", shell: "bash", env: { BASH_SILENCE_DEPRECATION_WARNING: "1" } }, ["-T", "-s", "bash"]);
+    terminal = await startSession({ label: "zsh-resize", shell: "zsh" }, ["-T", "-s", "zsh"]);
   });
   afterEach(async () => {
     await closeSession(terminal);

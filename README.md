@@ -1,184 +1,91 @@
-# inshellisense
+# smartzsh
 
-`inshellisense` provides IDE style autocomplete for shells. It's a terminal native runtime for [autocomplete](https://github.com/withfig/autocomplete) which has support for 600+ command line tools. `inshellisense` supports Windows, Linux, & macOS.
+IDE-style autocomplete for **zsh on macOS**. A terminal-native runtime for
+[Fig's autocomplete specs](https://github.com/withfig/autocomplete) (600+ CLIs), personalized from
+[microsoft/inshellisense](https://github.com/microsoft/inshellisense) and stripped down to a single
+shell + platform.
 
-<p align="center"><img alt="demo of inshellisense working" src="/docs/demo.gif"/></p>
+## Requirements
 
-## Getting Started
+- macOS
+- zsh
+- A modern terminal (developed against **WezTerm**; anything with kitty-keyboard / xterm support works)
 
-### Installation
-
-**npm (recommended)**
-
-```shell
-npm install -g @microsoft/inshellisense
-is init
-```
-
-**homebrew (macOS/linux)**
+## Install (from source)
 
 ```shell
-brew tap microsoft/inshellisense https://github.com/microsoft/inshellisense
-brew install inshellisense
-is init
+git clone https://github.com/jeportie/smartZsh.git
+cd smartZsh
+npm ci
+npm run build
+npm link          # exposes `smartzsh` (and the short alias `smz`) on your PATH
 ```
 
-### Updating
+## Enable in zsh
+
+Append the plugin to your `~/.zshrc` so a session starts automatically in every new shell:
 
 ```shell
-npm install -g @microsoft/inshellisense # OR brew upgrade inshellisense
-is reinit
+smartzsh init zsh >> ~/.zshrc
 ```
 
-### Quickstart
+> Keep the smartzsh line **last** in `~/.zshrc` — anything after it may not run inside the session.
 
-After completing the installation, run `is doctor` to verify your installation was successful. You can run `is` to start the autocomplete session for your desired shell. Additionally, inshellisense is also aliased under `inshellisense` after installation.
+You can also start a session on demand by running `smartzsh`, and leave it with `exit`.
 
-### Shell Plugin
+## Usage
 
-If you'd like to automatically start inshellisense when you open your shell, run the respective command for your shell. After running the command, inshellisense will automatically open when you start any new shell session:
-
-```shell
-# bash
-is init bash >> ~/.bashrc
-
-# zsh
-is init zsh >> ~/.zshrc
-
-# fish
-is init fish >> ~/.config/fish/config.fish
-
-# pwsh
-is init pwsh | Add-Content $profile
-
-# powershell
-is init powershell | Add-Content $profile
-
-# xonsh
-is init xonsh >> ~/.xonshrc
-
-# nushell
-is init nu | save $nu.env-path --append
-```
-
-> [!NOTE]  
-> When updating your shell configuration in the future, make sure the inshellisense plugin is the last command in the file. Including commands after it may break the configuration (ex. initializing your shell plugin manager after the inshellisense plugin)
-
-### Usage
-
-| Action                                | Command | Description                                      |
-| ------------------------------------- | ------- | ------------------------------------------------ |
-| Start                                 | `is`    | Start inshellisense session on the current shell |
-| Stop                                  | `exit`  | Stop inshellisense session on the current shell  |
-| Check If Inside Inshellisense Session | `is -c` | Check if shell inside inshellisense session      |
-
-#### Keybindings
-
-All other keys are passed through to the shell. The keybindings below are only captured when the inshellisense suggestions are visible, otherwise they are passed through to the shell as well. These can be customized in the [config](#configuration).
-
-| Action                    | Keybinding     |
-| ------------------------- | -------------- |
-| Accept Current Suggestion | <kbd>tab</kbd> |
-| View Next Suggestion      | <kbd>↓</kbd>   |
-| View Previous Suggestion  | <kbd>↑</kbd>   |
-| Dismiss Suggestions       | <kbd>esc</kbd> |
-
-## Integrations
-
-inshellisense supports the following shells:
-
-- [bash](https://www.gnu.org/software/bash/)
-- [zsh](https://www.zsh.org/)
-- [fish](https://github.com/fish-shell/fish-shell)
-- [pwsh](https://github.com/PowerShell/PowerShell)
-- [powershell](https://learn.microsoft.com/en-us/powershell/scripting/windows-powershell/starting-windows-powershell) (Windows Powershell)
-- [cmd](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd) _(experimental)_
-- [xonsh](https://xon.sh/)
-- [nushell](https://www.nushell.sh/)
-
-## Configuration
-
-All configuration is done through a [toml](https://toml.io/) file. You can create this file at `~/.inshellisenserc` or `$XDG_CONFIG_HOME/inshellisense/rc.toml`. When `XDG_CONFIG_HOME` is unset, empty, or not an absolute path, the XDG configuration path defaults to `~/.config/inshellisense/rc.toml`. The [JSON schema](https://json-schema.org/) for the configuration file can be found [here](https://github.com/microsoft/inshellisense/blob/main/src/utils/config.ts).
-
-On new Unix-like installations, generated resources are stored under `$XDG_DATA_HOME/inshellisense`. When `XDG_DATA_HOME` is unset, empty, or non-absolute, it defaults to `~/.local/share` as defined by the XDG specification. Existing installations continue using `~/.inshellisense` when that directory is present so current shell plugins keep working; Windows also keeps using that location. Running `is reinit` migrates legacy resources to the XDG data directory.
+| Action                        | Command        |
+| ----------------------------- | -------------- |
+| Start a session               | `smartzsh`     |
+| Stop a session                | `exit`         |
+| Check if inside a session     | `smartzsh -c`  |
 
 ### Keybindings
 
-You can customize the keybindings for inshellisense by adding a `bindings` section to your config file. The following is the default configuration for the [keybindings](#keybindings):
+Captured only while suggestions are visible; every other key passes through to zsh.
+
+| Action                    | Key            |
+| ------------------------- | -------------- |
+| Accept current suggestion | <kbd>tab</kbd> |
+| Next suggestion           | <kbd>↓</kbd>   |
+| Previous suggestion       | <kbd>↑</kbd>   |
+| Dismiss suggestions       | <kbd>esc</kbd> |
+
+## Configuration
+
+Optional TOML config at `~/.smartzshrc` or `$XDG_CONFIG_HOME/smartzsh/rc.toml`
+(defaults to `~/.config/smartzsh/rc.toml`).
 
 ```toml
-[bindings.acceptSuggestion]
-key = "tab"
-# shift and ctrl are optional and default to false
-shift = false
-ctrl = false
+useAliases = true                          # expand your zsh aliases
+useNerdFont = true                         # use NerdFont glyphs
+maxSuggestions = 10                        # rows shown at once
+activeSuggestionBackgroundColor = "#2E7D32"
 
+[bindings.acceptSuggestion]
+key = "tab"                                # shift / ctrl optional, default false
 [bindings.nextSuggestion]
 key = "down"
-
 [bindings.previousSuggestion]
 key = "up"
-
 [bindings.dismissSuggestions]
 key = "escape"
 ```
 
-Key names are matched against the Node.js [keypress](https://nodejs.org/api/readline.html#readlineemitkeypresseventsstream-interface) events.
+Key names follow Node's [keypress](https://nodejs.org/api/readline.html#readlineemitkeypresseventsstream-interface) events.
 
-### Alias Expansion
+## Development
 
-Inshellisense supports expanding aliases for bash/zsh shells. You can enable alias expansion in your config file:
-
-```toml
-useAliases = true
+```shell
+npm run try         # build + launch a session (manual testing, run it in your terminal)
+npm test            # unit + snapshot tests
+npm run test:e2e    # PTY end-to-end tests (real zsh, ~25s)
 ```
 
-### NerdFonts
+## Attribution
 
-If you are using a [NerdFont](https://www.nerdfonts.com/) patched font, you can enable the NerdFonts support in your config file:
-
-```toml
-useNerdFont = true
-```
-
-### Max Suggestions
-
-You can change the maximum number of suggestions displayed in the autocomplete list at one time in your config file:
-
-```toml
-maxSuggestions = 10
-```
-
-### Active Suggestion Background Color
-
-You can customize the active suggestion's background with a `#RRGGBB` hex color.
-
-```toml
-activeSuggestionBackgroundColor = "#2E7D32"
-```
-
-## Unsupported Specs
-
-Specs for the `az`, `gcloud`, & `aws` CLIs are not supported in inshellisense due to their large size.
-
-## Contributing
-
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Trademarks
-
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
-trademarks or logos is subject to and must follow
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+smartzsh is a personal fork of [microsoft/inshellisense](https://github.com/microsoft/inshellisense),
+reduced to zsh-on-macOS. Licensed under the [MIT License](./LICENSE) (© Microsoft Corporation and
+© Jerome Portier). Autocomplete specs are © their respective authors via
+[@withfig/autocomplete](https://github.com/withfig/autocomplete).

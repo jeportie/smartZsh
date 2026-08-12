@@ -81,7 +81,7 @@ export const render = async (program: Command, shell: Shell, underTest: boolean,
   stdio.onKeypress((...keyPress: KeyPressEvent) => {
     const press = keyPress[1];
     if (term.isAlternateBuffer()) {
-      term.write(press.name === "backspace" ? getBackspaceSequence(keyPress, shell) : press.sequence);
+      term.write(press.name === "backspace" ? getBackspaceSequence(keyPress) : press.sequence);
       return;
     }
 
@@ -91,7 +91,7 @@ export const render = async (program: Command, shell: Shell, underTest: boolean,
     } else if (!inputHandled) {
       if (press.name === "backspace") {
         backspaceEchoPending = true;
-        term.write(getBackspaceSequence(keyPress, shell));
+        term.write(getBackspaceSequence(keyPress));
       } else {
         term.write(press.sequence);
       }

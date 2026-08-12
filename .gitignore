@@ -6,3 +6,4 @@ tui-traces/
 .idea/
 .vscode/
 pkg/
+src/tests/fixtures/cleanzsh/.zsh_history

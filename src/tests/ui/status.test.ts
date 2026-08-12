@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import os from "node:os";
 import { jest } from "@jest/globals";
 import type { ShellUse } from "@microsoft/shell-use/test";
 import type { Shell } from "@microsoft/shell-use";
 import { closeSession, startSession, startShell } from "./helpers";
 
-const shell: Shell = os.platform() == "darwin" ? "zsh" : os.platform() == "linux" ? "bash" : "powershell";
+const shell: Shell = "zsh";
 
 jest.retryTimes(2, { logErrorsBeforeRetry: true });
 
 describe("status checks", () => {
-  describe("inside inshellisense session", () => {
+  describe("inside smartzsh session", () => {
     let terminal: ShellUse;
     beforeEach(async () => {
       terminal = await startSession({ label: "status", shell }, ["-T", "-s", shell]);
@@ -22,12 +21,12 @@ describe("status checks", () => {
     });
 
     test("current status", async () => {
-      await terminal.write("is -c\r");
+      await terminal.write("smartzsh -c\r");
       await terminal.expectText("live", { fg: "2" });
     });
   });
 
-  describe("outside inshellisense session", () => {
+  describe("outside smartzsh session", () => {
     let terminal: ShellUse;
     beforeEach(async () => {
       terminal = await startShell(shell);
@@ -37,7 +36,7 @@ describe("status checks", () => {
     });
 
     test("current status", async () => {
-      await terminal.write("is -c\r");
+      await terminal.write("smartzsh -c\r");
       await terminal.expectText("not found", { fg: "1" });
     });
   });

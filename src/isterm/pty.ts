@@ -3,7 +3,6 @@
 
 import { EventEmitter } from "node:events";
 import process from "node:process";
-import os from "node:os";
 import path from "node:path";
 import fs from "node:fs";
 import { Unicode11Addon } from "@xterm/addon-unicode11";
@@ -11,7 +10,7 @@ import { Unicode11Addon } from "@xterm/addon-unicode11";
 import pty from "node-pty";
 import type { IPty, IEvent } from "node-pty";
 import { Shell, userZdotdir, zdotdir } from "../utils/shell.js";
-import { IsTermOscPs, IstermOscPt, IstermPromptStart, IstermPromptEnd } from "../utils/ansi.js";
+import { IsTermOscPs, IstermOscPt } from "../utils/ansi.js";
 import xterm from "@xterm/headless";
 import type { IBuffer, IBufferCell } from "@xterm/xterm";
 
@@ -21,12 +20,10 @@ interface ICellData extends IBufferCell {
 }
 import { CommandManager, CommandState } from "./commandManager.js";
 import log from "../utils/log.js";
-import { gitBashPath } from "../utils/shell.js";
 import styles from "ansi-styles";
 import * as ansi from "../utils/ansi.js";
 import { Command } from "commander";
 import which from "which";
-import { shellResourcesPath } from "../utils/constants.js";
 import { endTiming, startTiming } from "../utils/performance.js";
 
 const ISTermOnDataEvent = "data";
@@ -77,7 +74,7 @@ export class ISTerm implements IPty {
       cols,
       rows,
       cwd: process.cwd(),
-      env: { ...convertToPtyEnv(shell, underTest, login), ...env },
+      env: { ...convertToPtyEnv(underTest, login), ...env },
       useConpty: true,
       useConptyDll: true,
     });
@@ -162,14 +159,6 @@ export class ISTerm implements IPty {
   private _sanitizedCwd(cwd: string): string {
     if (cwd.match(/^['"].*['"]$/)) {
       cwd = cwd.substring(1, cwd.length - 1);
-    }
-    // Convert a drive prefix to windows style when using Git Bash
-    if (os.platform() === "win32" && this.#shell == Shell.Bash && cwd && cwd.match(/^\/[A-z]{1}\//)) {
-      cwd = `${cwd[1]}:\\` + cwd.substring(3, cwd.length);
-    }
-    // Make the drive letter uppercase on Windows (see vscode #9448)
-    if (os.platform() === "win32" && cwd && cwd[1] === ":") {
-      return cwd[0].toUpperCase() + cwd.substring(1);
     }
     return cwd;
   }
@@ -416,7 +405,7 @@ export class ISTerm implements IPty {
 }
 
 export const spawn = async (program: Command, options: ISTermOptions): Promise<ISTerm> => {
-  const { shellTarget, shellArgs } = await convertToPtyTarget(options.shell, options.underTest, options.login);
+  const { shellTarget, shellArgs } = await convertToPtyTarget(options.login);
   if (!(await shellExists(shellTarget))) {
     program.error(`shell not found on PATH: ${shellTarget}`, { exitCode: 1 });
   }
@@ -429,61 +418,13 @@ const shellExists = async (shellTarget: string): Promise<boolean> => {
   return fileExists || fileOnPath != null;
 };
 
-const convertToPtyTarget = async (shell: Shell, underTest: boolean, login: boolean) => {
-  const platform = os.platform();
-  const shellTarget = shell == Shell.Bash && platform == "win32" ? await gitBashPath() : platform == "win32" ? `${shell}.exe` : shell;
-  let shellArgs: string[] = [];
-
-  switch (shell) {
-    case Shell.Bash:
-      shellArgs = ["--init-file", path.join(shellResourcesPath, "shellIntegration.bash")];
-      break;
-    case Shell.Powershell:
-    case Shell.Pwsh:
-      shellArgs = ["-noexit", "-command", `try { . "${path.join(shellResourcesPath, "shellIntegration.ps1")}" } catch {}`];
-      break;
-    case Shell.Fish:
-      shellArgs =
-        platform == "win32"
-          ? ["--init-command", `. "$(cygpath -u '${path.join(shellResourcesPath, "shellIntegration.fish")}')"`]
-          : ["--init-command", `. ${path.join(shellResourcesPath, "shellIntegration.fish").replace(/(\s+)/g, "\\$1")}`];
-      break;
-    case Shell.Xonsh: {
-      const sharedConfig = os.platform() == "win32" ? path.join("C:\\ProgramData", "xonsh", "xonshrc") : path.join("etc", "xonsh", "xonshrc");
-      const userConfigs = [
-        path.join(os.homedir(), ".xonshrc"),
-        path.join(os.homedir(), ".config", "xonsh", "rc.xsh"),
-        path.join(os.homedir(), ".config", "xonsh", "rc.d"),
-      ];
-      const configs = [sharedConfig, ...userConfigs].filter((config) => fs.existsSync(config));
-      shellArgs = ["--rc", ...configs, path.join(shellResourcesPath, "shellIntegration.xsh")];
-      break;
-    }
-    case Shell.Nushell:
-      shellArgs = ["-e", `source \`${path.join(shellResourcesPath, "shellIntegration.nu")}\``];
-      if (underTest) shellArgs.push("-n");
-      break;
-  }
-
-  if (login) {
-    switch (shell) {
-      case Shell.Powershell:
-      case Shell.Pwsh:
-        shellArgs.unshift("-login");
-        break;
-      case Shell.Zsh:
-      case Shell.Fish:
-      case Shell.Xonsh:
-      case Shell.Nushell:
-        shellArgs.unshift("--login");
-        break;
-    }
-  }
-
+const convertToPtyTarget = async (login: boolean) => {
+  const shellTarget = Shell.Zsh;
+  const shellArgs: string[] = login ? ["--login"] : [];
   return { shellTarget, shellArgs };
 };
 
-const convertToPtyEnv = (shell: Shell, underTest: boolean, login: boolean) => {
+const convertToPtyEnv = (underTest: boolean, login: boolean) => {
   const env: Record<string, string> = {
     ...process.env,
     ISTERM: "1",
@@ -491,18 +432,5 @@ const convertToPtyEnv = (shell: Shell, underTest: boolean, login: boolean) => {
   if (underTest) env.ISTERM_TESTING = "1";
   if (login) env.ISTERM_LOGIN = "1";
 
-  switch (shell) {
-    case Shell.Cmd: {
-      if (underTest) {
-        return { ...env, PROMPT: `${IstermPromptStart}$G ${IstermPromptEnd}` };
-      }
-      const prompt = process.env.PROMPT ? process.env.PROMPT : "$P$G";
-      return { ...env, PROMPT: `${IstermPromptStart}${prompt}${IstermPromptEnd}` };
-    }
-    case Shell.Zsh: {
-      return { ...env, ZDOTDIR: zdotdir(underTest), USER_ZDOTDIR: userZdotdir };
-    }
-  }
-
-  return env;
+  return { ...env, ZDOTDIR: zdotdir(underTest), USER_ZDOTDIR: userZdotdir };
 };

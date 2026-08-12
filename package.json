@@ -1,5 +1,6 @@
 {
-  "name": "@microsoft/inshellisense",
+  "name": "smartzsh",
+  "private": true,
   "version": "0.0.3",
   "description": "IDE style command line auto complete",
   "type": "module",
@@ -7,42 +8,37 @@
     "node": ">=18.0 <23.0.0"
   },
   "bin": {
-    "inshellisense": "./build/index.js",
-    "is": "./build/index.js"
+    "smartzsh": "./build/index.js",
+    "smz": "./build/index.js"
   },
   "files": [
     "build/**",
     "shell/**",
-    "scripts/**",
     "*.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "tsc",
-    "package": "tsx ./scripts/pkg.ts",
-    "package:base": "tsx ./scripts/pkg-base.ts",
+    "try": "npm run build && node build/index.js",
     "dev": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import=tsx src/index.ts -V",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.e2e.config.cjs",
     "lint": "eslint src/ --ext .ts,.tsx && prettier src/ --check",
     "lint:fix": "eslint src/ --ext .ts,.tsx --fix && prettier src/ --write",
-    "perf": "npm run build && tsx ./scripts/perf/run.ts",
-    "perf:session": "npm run build && tsx ./scripts/perf/session.ts",
-    "perf:profile": "npm run build && node --cpu-prof --heap-prof --import=tsx ./scripts/perf/run.ts",
     "debug": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --inspect --import=tsx src/index.ts -V"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/microsoft/inshellisense.git"
+    "url": "git+https://github.com/jeportie/smartZsh.git"
   },
   "author": {
-    "name": "Microsoft Corporation"
+    "name": "Jerome Portier"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/microsoft/inshellisense/issues"
+    "url": "https://github.com/jeportie/smartZsh/issues"
   },
-  "homepage": "https://github.com/microsoft/inshellisense#readme",
+  "homepage": "https://github.com/jeportie/smartZsh#readme",
   "dependencies": {
     "@withfig/autocomplete": "2.675.0",
     "@xterm/addon-unicode11": "^0.9.0",

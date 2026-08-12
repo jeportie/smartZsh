@@ -12,7 +12,7 @@ const write = async (terminal: xterm.Terminal, data: string) => {
 
 test("clears the public command snapshot as soon as a new prompt starts", async () => {
   const terminal = new xterm.Terminal({ allowProposedApi: true, rows: 10, cols: 80 });
-  const manager = new CommandManager(terminal, Shell.Bash);
+  const manager = new CommandManager(terminal, Shell.Zsh);
 
   manager.handlePromptStart();
   await write(terminal, "> ");
@@ -30,7 +30,7 @@ test("clears the public command snapshot as soon as a new prompt starts", async 
 
 test("does not track commands in the alternate buffer", async () => {
   const terminal = new xterm.Terminal({ allowProposedApi: true, rows: 10, cols: 80 });
-  const manager = new CommandManager(terminal, Shell.Bash);
+  const manager = new CommandManager(terminal, Shell.Zsh);
 
   manager.handlePromptStart();
   await write(terminal, "> ");

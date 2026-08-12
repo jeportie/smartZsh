@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import os from "node:os";
 import path from "node:path";
-import fs from "node:fs";
 import url from "node:url";
 import { ShellUse } from "@microsoft/shell-use";
 import { trackTerminal, untrackTerminal } from "@microsoft/shell-use/test";
@@ -15,24 +13,10 @@ export type ShellConfig = {
   env?: Record<string, string>;
 };
 
-const ohmyzshFixtureDir = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..", "fixtures", "ohmyzsh");
-const hasOhMyZsh = os.platform() !== "win32" && fs.existsSync(path.join(os.homedir(), ".oh-my-zsh"));
-
-const windowsConfigs: ShellConfig[] = [
-  { label: "cmd", shell: "cmd" },
-  { label: "pwsh", shell: "pwsh" },
-  { label: "powershell", shell: "powershell" },
-  { label: "xonsh", shell: "xonsh" },
-];
-const unixConfigs: ShellConfig[] = [
-  { label: "bash", shell: "bash" },
-  { label: "fish", shell: "fish" },
-  { label: "zsh", shell: "zsh" },
-  ...(hasOhMyZsh ? [{ label: "zsh-ohmyzsh", shell: "zsh", env: { USER_ZDOTDIR: ohmyzshFixtureDir } }] : []),
-];
-export const configs = os.platform() == "win32" ? windowsConfigs : unixConfigs;
+export const configs: ShellConfig[] = [{ label: "zsh", shell: "zsh" }];
 export const returnChar = (shell: string) => (shell == "xonsh" ? "\n" : "\r");
 
+const cleanZshFixtureDir = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..", "fixtures", "cleanzsh");
 const buildEntry = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..", "..", "..", "build", "index.js");
 
 const expectTextTimeout = 30_000;
@@ -52,7 +36,9 @@ export const closeSession = async (terminal: ShellUse | undefined): Promise<void
   }
 };
 
-const baseEnv = { ISTERM: "0", ISTERM_TESTING: "0" };
+// npm link installs the `smartzsh` bin alongside the node running these tests, so make it resolvable
+const nodeBinDir = path.dirname(process.execPath);
+const baseEnv = { ISTERM: "0", ISTERM_TESTING: "0", ZDOTDIR: cleanZshFixtureDir, PATH: `${nodeBinDir}:${process.env.PATH ?? ""}` };
 const ephemeralTerminal = (): ShellUse => {
   const terminal = ShellUse.ephemeral(undefined, { timeouts });
   trackTerminal(terminal);
