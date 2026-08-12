@@ -40,7 +40,7 @@ describe(`parseCommand`, () => {
   testData.forEach(({ command, name, skip, maxSuggestions }) => {
     if (skip) return;
     test(name, async () => {
-      const suggestions = await getSuggestions(command, process.cwd(), Shell.Bash);
+      const suggestions = await getSuggestions(command, process.cwd(), Shell.Zsh);
       if (suggestions != null && suggestions.suggestions != null) {
         suggestions.suggestions = suggestions?.suggestions.slice(0, maxSuggestions);
       }
@@ -73,7 +73,7 @@ describe(`getSubcommandSuggestions`, () => {
   subcommandSuggestionsData.forEach(({ command, name, maxSuggestions, expectedNames, expectedIcons, platforms }) => {
     if (platforms != null && !platforms.includes(process.platform)) return;
     test(name, async () => {
-      const suggestions = await getSuggestions(command, process.cwd(), Shell.Bash);
+      const suggestions = await getSuggestions(command, process.cwd(), Shell.Zsh);
       if (suggestions != null && suggestions.suggestions != null) {
         suggestions.suggestions = suggestions?.suggestions.slice(0, maxSuggestions);
       }
@@ -102,7 +102,7 @@ const commandSuggestionsData = [
 describe(`getCommandSuggestions`, () => {
   commandSuggestionsData.forEach(({ command, name, maxSuggestions, expectedNames, expectedIcons }) => {
     test(name, async () => {
-      const suggestions = await getSuggestions(command, process.cwd(), Shell.Bash);
+      const suggestions = await getSuggestions(command, process.cwd(), Shell.Zsh);
       if (suggestions != null && suggestions.suggestions != null) {
         suggestions.suggestions = suggestions?.suggestions.slice(0, maxSuggestions);
       }

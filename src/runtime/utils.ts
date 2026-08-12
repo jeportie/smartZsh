@@ -26,39 +26,9 @@ const quoteString = (value: string, quoteChar: QuoteChar): string => {
 
 const needsQuoted = (value: string, quoteChar: QuoteChar): boolean => isQuoted(value, quoteChar) || value.includes(" ");
 
-const getShellQuoteChar = (shell: Shell): QuoteChar => {
-  switch (shell) {
-    case Shell.Zsh:
-    case Shell.Bash:
-    case Shell.Fish:
-      return `"`;
-    case Shell.Xonsh:
-      return `'`;
-    case Shell.Nushell:
-      return "`";
-    case Shell.Pwsh:
-    case Shell.Powershell:
-      return `'`;
-    case Shell.Cmd:
-      return `"`;
-  }
-};
+const getShellQuoteChar = (_shell: Shell): QuoteChar => `"`;
 
-export const getShellWhitespaceEscapeChar = (shell: Shell): string => {
-  switch (shell) {
-    case Shell.Zsh:
-    case Shell.Bash:
-    case Shell.Fish:
-    case Shell.Xonsh:
-    case Shell.Nushell:
-      return "\\";
-    case Shell.Pwsh:
-    case Shell.Powershell:
-      return "`";
-    case Shell.Cmd:
-      return "^";
-  }
-};
+export const getShellWhitespaceEscapeChar = (_shell: Shell): string => "\\";
 
 export const escapePath = (value: string | undefined, shell: Shell): string | undefined =>
   value != null && needsQuoted(value, getShellQuoteChar(shell)) ? quoteString(value, getShellQuoteChar(shell)) : value;

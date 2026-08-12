@@ -3,23 +3,19 @@
 
 import path from "node:path";
 import os from "node:os";
-import fs from "node:fs";
 
 const smartzshFolderName = "smartzsh";
 
-export const resolveXdgConfigHome = (value: string | undefined, platform: NodeJS.Platform): string | undefined => {
-  return platform !== "win32" && value != null && path.isAbsolute(value) ? value : undefined;
+export const resolveXdgConfigHome = (value: string | undefined): string | undefined => {
+  return value != null && path.isAbsolute(value) ? value : undefined;
 };
 
-export const resolveXdgDataHome = (value: string | undefined, homeDirectory: string, platform: NodeJS.Platform): string | undefined => {
-  if (platform === "win32") return;
+export const resolveXdgDataHome = (value: string | undefined, homeDirectory: string): string | undefined => {
   return value != null && path.isAbsolute(value) ? value : path.join(homeDirectory, ".local", "share");
 };
 
-export const resolveResourcesPath = (homeDirectory: string, xdgDataDirectory: string | undefined, hasLegacyResources: boolean): string => {
-  return xdgDataDirectory == null || hasLegacyResources
-    ? path.join(homeDirectory, `.${smartzshFolderName}`)
-    : path.join(xdgDataDirectory, smartzshFolderName);
+export const resolveResourcesPath = (homeDirectory: string, xdgDataDirectory: string | undefined): string => {
+  return xdgDataDirectory == null ? path.join(homeDirectory, `.${smartzshFolderName}`) : path.join(xdgDataDirectory, smartzshFolderName);
 };
 
 export const resolveConfigFilePath = (homeDirectory: string, xdgConfigDirectory: string | undefined): string => {
@@ -37,12 +33,10 @@ export const getResourcePaths = (resourcesPath: string) => ({
 });
 
 const homeDirectory = os.homedir();
-const legacyResourcesPath = path.join(homeDirectory, `.${smartzshFolderName}`);
-export const xdgConfigHome = resolveXdgConfigHome(process.env.XDG_CONFIG_HOME, process.platform);
-export const xdgDataHome = resolveXdgDataHome(process.env.XDG_DATA_HOME, homeDirectory, process.platform);
-export const preferredResourcesPath = resolveResourcesPath(homeDirectory, xdgDataHome, false);
-export const allResourcesPath = resolveResourcesPath(homeDirectory, xdgDataHome, fs.existsSync(legacyResourcesPath));
-export const usesLegacyResources = allResourcesPath === legacyResourcesPath;
+export const xdgConfigHome = resolveXdgConfigHome(process.env.XDG_CONFIG_HOME);
+export const xdgDataHome = resolveXdgDataHome(process.env.XDG_DATA_HOME, homeDirectory);
+export const preferredResourcesPath = resolveResourcesPath(homeDirectory, xdgDataHome);
+export const allResourcesPath = resolveResourcesPath(homeDirectory, xdgDataHome);
 export const xdgConfigPath = resolveConfigFilePath(homeDirectory, xdgConfigHome);
 const resourcePaths = getResourcePaths(allResourcesPath);
 export const loggingResourcesPath = resourcePaths.logging;

@@ -31,7 +31,7 @@ test("clears rendered suggestions when suspended", async () => {
       transientClears += 1;
     },
   });
-  const manager = new SuggestionManager(terminal, Shell.Bash, runtime);
+  const manager = new SuggestionManager(terminal, Shell.Zsh, runtime);
 
   await manager.exec();
   expect(manager.render("below", 0)).not.toEqual([]);
@@ -57,7 +57,7 @@ test("clears transient state when an in-flight request is suspended", async () =
       transientClears += 1;
     },
   });
-  const manager = new SuggestionManager(terminal, Shell.Bash, runtime);
+  const manager = new SuggestionManager(terminal, Shell.Zsh, runtime);
 
   const request = manager.exec();
   await Promise.resolve();

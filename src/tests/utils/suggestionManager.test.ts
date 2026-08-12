@@ -32,7 +32,7 @@ test("does not commit stale suggestions when a generator ignores cancellation", 
     getSuggestions: async (command: string) => (command === "first" ? first.promise : second.promise),
     clearTransientSuggestionState: () => {},
   });
-  const manager = new SuggestionManager(terminal, Shell.Bash, runtime);
+  const manager = new SuggestionManager(terminal, Shell.Zsh, runtime);
 
   const firstRequest = manager.exec();
   await Promise.resolve();
@@ -68,7 +68,7 @@ test("clears prompt-scoped generator state when the command ends", async () => {
       clearCalls += 1;
     },
   });
-  const manager = new SuggestionManager(terminal, Shell.Bash, runtime);
+  const manager = new SuggestionManager(terminal, Shell.Zsh, runtime);
 
   await manager.exec();
   commandText = undefined;
@@ -89,7 +89,7 @@ test("does not consume suggestion bindings while the UI is hidden", async () => 
   const runtime = Promise.resolve({
     getSuggestions: async () => blob("current"),
   });
-  const manager = new SuggestionManager(terminal, Shell.Bash, runtime);
+  const manager = new SuggestionManager(terminal, Shell.Zsh, runtime);
   await manager.exec();
 
   expect(manager.update({ name: "tab", sequence: "\t", shift: false, ctrl: false }, false)).toBe(false);
@@ -108,7 +108,7 @@ test("does not consume suggestion bindings when the UI is hidden", async () => {
   const runtime = Promise.resolve({
     getSuggestions: async () => blob("current"),
   });
-  const manager = new SuggestionManager(terminal, Shell.Bash, runtime);
+  const manager = new SuggestionManager(terminal, Shell.Zsh, runtime);
   await manager.exec();
 
   expect(manager.update({ name: "tab", sequence: "\t", shift: false, ctrl: false }, false)).toBe(false);
