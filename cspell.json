@@ -73,7 +73,8 @@
     "CURRFIX",
     "davelosert",
     "conventionalcommits",
-    "nvmrc"
+    "nvmrc",
+    "rebranded"
   ],
   "ignorePaths": ["node_modules/**", "build/**", "coverage/**", "**/*.snap", "package-lock.json", "docs/superpowers/**", "src/tests/fixtures/**", ".claude/**"]
 }
