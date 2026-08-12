@@ -1,7 +1,11 @@
 # CURRFIX — current fix/feature intake ledger
 
-Tracked items for the agent crew (Phase D). One row per CF item; each becomes a dedicated
-`fix/*` or `feature/*` branch → PR → `dev`.
+Feedback and issues become `CF-XXX` lines here (via the `triage` agent). One line per item; each becomes a dedicated `fix/cf-<n>-<slug>` (or `feature/<name>`) branch → draft PR → `dev`.
 
-| ID  | Title | Status | Branch / PR |
-| --- | ----- | ------ | ----------- |
+Grammar: `- [ ] CF-0NN | <AREA> | <short description> | STATUS=OPEN | reported_by=<login> | GH=#<n>`
+Done: `- [x] CF-0NN | <AREA> | <short description> | STATUS=DONE | reported_by=<login> | GH=#<n> | PR=#<m> merged to dev`
+AREA ∈ `PTY, SHELL, RENDER, SPECS, CLI, UI, E2E, CI, DOCS, BUILD, AGENTS, DX`.
+
+## Reported Issues
+
+<!-- triage appends CF lines below -->
