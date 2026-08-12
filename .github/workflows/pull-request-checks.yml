@@ -23,7 +23,11 @@ jobs:
           cache: npm
           node-version-file: .nvmrc
       - run: npm ci
-      - run: npm run check
+      - run: npm run lint
+      - run: npm run secretlint
+      - run: npm run spellcheck
+      - run: npm run typecheck
+      - run: npm run test:coverage
       - if: always()
         uses: davelosert/vitest-coverage-report-action@v2
 
