@@ -27,7 +27,12 @@
     "e2e:gen": "vitest --run --config vitest.e2e.config.ts",
     "lint": "eslint .",
     "format": "prettier . --write",
-    "debug": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --inspect --import=tsx src/index.ts -V"
+    "debug": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --inspect --import=tsx src/index.ts -V",
+    "typecheck": "tsc --noEmit",
+    "spellcheck": "cspell --no-progress \"**/*.{js,mjs,cjs,ts,tsx,md,json,yml}\"",
+    "secretlint": "secretlint \"**/*\" --maskSecrets --secretlintignore .secretlintignore",
+    "check": "npm run lint && npm run secretlint && npm run spellcheck && npm run typecheck && npm test",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -60,8 +65,12 @@
     "wrap-ansi": "^8.1.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.39.5",
     "@microsoft/shell-use": "^0.0.1-beta.6",
+    "@secretlint/secretlint-rule-pattern": "^8.5.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^8.5.0",
     "@tsconfig/node18": "^18.2.2",
     "@types/color-convert": "^2.0.3",
     "@types/node": "^25.0.3",
@@ -71,6 +80,8 @@
     "@vitest/coverage-v8": "^2.1.9",
     "@withfig/autocomplete-types": "^1.28.0",
     "@xterm/xterm": "^6.0.0",
+    "commitlint-plugin-cspell": "^0.9.4",
+    "cspell": "^8.19.4",
     "esbuild": "^0.27.2",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^9.1.2",
@@ -78,14 +89,18 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "3.0.3",
+    "secretlint": "^8.5.0",
     "tsx": "^4.19.1",
     "typescript": "^5.2.2",
     "typescript-eslint": "^8.67.0",
     "vitest": "^2.1.9"
   },
   "lint-staged": {
-    "{,src/**/}*.{ts,tsx}": [
+    "*.{ts,tsx}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,mjs,cjs,json,md,yml}": [
       "prettier --write"
     ]
   }
