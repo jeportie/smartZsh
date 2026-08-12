@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { jest } from "@jest/globals";
+import { vi } from "vitest";
 
 import { clearGeneratorState, clearImplicitGeneratorState, getGeneratorSuggestions } from "../../runtime/generatorCache.js";
 import { getGeneratorQueryTerm } from "../../runtime/generator.js";
@@ -16,11 +16,11 @@ const deferred = <T>() => {
 
 beforeEach(() => {
   clearGeneratorState();
-  jest.useRealTimers();
+  vi.useRealTimers();
 });
 
 test("debounces opted-in generators for 100ms", async () => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
   let calls = 0;
   const generator: Fig.Generator = {
     custom: async () => {
@@ -30,9 +30,9 @@ test("debounces opted-in generators for 100ms", async () => {
   };
 
   const result = getGeneratorSuggestions(generator, ["tool", "query"], "query", process.cwd(), true);
-  await jest.advanceTimersByTimeAsync(99);
+  await vi.advanceTimersByTimeAsync(99);
   expect(calls).toBe(0);
-  await jest.advanceTimersByTimeAsync(1);
+  await vi.advanceTimersByTimeAsync(1);
 
   await expect(result).resolves.toEqual([{ name: "result" }]);
   expect(calls).toBe(1);

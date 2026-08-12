@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { jest } from "@jest/globals";
 import { terminalSnapshot } from "@microsoft/shell-use/test";
 import type { ShellUse } from "@microsoft/shell-use/test";
 import { closeSession, configs, expectPrompt, returnChar, startSession } from "./helpers";
 
 const accent = "#7d56f4";
-
-jest.retryTimes(2, { logErrorsBeforeRetry: true });
 
 describe("resize recovery", () => {
   let terminal: ShellUse;

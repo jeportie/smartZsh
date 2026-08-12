@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`parseCommand alreadyUsedOption 1`] = `
+exports[`parseCommand > alreadyUsedOption 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -25,9 +25,9 @@ exports[`parseCommand alreadyUsedOption 1`] = `
 }
 `;
 
-exports[`parseCommand alreadyUsedSuggestion 1`] = `undefined`;
+exports[`parseCommand > alreadyUsedSuggestion 1`] = `undefined`;
 
-exports[`parseCommand command 1`] = `
+exports[`parseCommand > command 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -76,7 +76,7 @@ exports[`parseCommand command 1`] = `
 }
 `;
 
-exports[`parseCommand completePrefixFilter 1`] = `
+exports[`parseCommand > completePrefixFilter 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -101,7 +101,7 @@ exports[`parseCommand completePrefixFilter 1`] = `
 }
 `;
 
-exports[`parseCommand completedOptionWithArg 1`] = `
+exports[`parseCommand > completedOptionWithArg 1`] = `
 {
   "activeToken": undefined,
   "suggestions": [
@@ -331,9 +331,9 @@ exports[`parseCommand completedOptionWithArg 1`] = `
 }
 `;
 
-exports[`parseCommand emptySuggestions 1`] = `undefined`;
+exports[`parseCommand > emptySuggestions 1`] = `undefined`;
 
-exports[`parseCommand exclusiveOnOption 1`] = `
+exports[`parseCommand > exclusiveOnOption 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -467,7 +467,7 @@ exports[`parseCommand exclusiveOnOption 1`] = `
 }
 `;
 
-exports[`parseCommand fullyTypedSuggestion 1`] = `
+exports[`parseCommand > fullyTypedSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -504,7 +504,7 @@ exports[`parseCommand fullyTypedSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand generatorUsingPartialInput 1`] = `
+exports[`parseCommand > generatorUsingPartialInput 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -529,7 +529,7 @@ exports[`parseCommand generatorUsingPartialInput 1`] = `
 }
 `;
 
-exports[`parseCommand noArgsArgumentGiven 1`] = `
+exports[`parseCommand > noArgsArgumentGiven 1`] = `
 {
   "activeToken": undefined,
   "suggestions": [
@@ -573,9 +573,44 @@ exports[`parseCommand noArgsArgumentGiven 1`] = `
 }
 `;
 
-exports[`parseCommand noOptionsSuggestedDuringVariadicArg 1`] = `undefined`;
+exports[`parseCommand > noOptionsSuggestedDuringVariadicArg 1`] = `
+{
+  "activeToken": {
+    "complete": false,
+    "isOption": false,
+    "token": "ite",
+    "tokenLength": 3,
+  },
+  "suggestions": [
+    {
+      "allNames": [
+        "vitest.config.ts",
+      ],
+      "description": undefined,
+      "hidden": undefined,
+      "icon": "📄",
+      "insertValue": "vitest.config.ts",
+      "name": "vitest.config.ts",
+      "priority": 55,
+      "type": "file",
+    },
+    {
+      "allNames": [
+        "vitest.e2e.config.ts",
+      ],
+      "description": undefined,
+      "hidden": undefined,
+      "icon": "📄",
+      "insertValue": "vitest.e2e.config.ts",
+      "name": "vitest.e2e.config.ts",
+      "priority": 55,
+      "type": "file",
+    },
+  ],
+}
+`;
 
-exports[`parseCommand optionsSuggestedAfterVariadicArg 1`] = `
+exports[`parseCommand > optionsSuggestedAfterVariadicArg 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -625,7 +660,7 @@ exports[`parseCommand optionsSuggestedAfterVariadicArg 1`] = `
 }
 `;
 
-exports[`parseCommand partialPrefixFilter 1`] = `
+exports[`parseCommand > partialPrefixFilter 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -674,7 +709,7 @@ exports[`parseCommand partialPrefixFilter 1`] = `
 }
 `;
 
-exports[`parseCommand pathNestedSuggestion 1`] = `
+exports[`parseCommand > pathNestedSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -701,7 +736,7 @@ exports[`parseCommand pathNestedSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand pathSuggestion 1`] = `
+exports[`parseCommand > pathSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -726,7 +761,7 @@ exports[`parseCommand pathSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand pathWithFileFilteredSuggestion 1`] = `
+exports[`parseCommand > pathWithFileFilteredSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -753,7 +788,7 @@ exports[`parseCommand pathWithFileFilteredSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand pathWithFileSuggestion 1`] = `
+exports[`parseCommand > pathWithFileSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -780,7 +815,7 @@ exports[`parseCommand pathWithFileSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand provideFileSuggestion 1`] = `
+exports[`parseCommand > provideFileSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -805,7 +840,7 @@ exports[`parseCommand provideFileSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand provideFolderSuggestion 1`] = `
+exports[`parseCommand > provideFolderSuggestion 1`] = `
 {
   "activeToken": {
     "complete": false,
@@ -830,7 +865,7 @@ exports[`parseCommand provideFolderSuggestion 1`] = `
 }
 `;
 
-exports[`parseCommand providedArgDescription 1`] = `
+exports[`parseCommand > providedArgDescription 1`] = `
 {
   "activeToken": undefined,
   "argumentDescription": "actor",
@@ -838,7 +873,7 @@ exports[`parseCommand providedArgDescription 1`] = `
 }
 `;
 
-exports[`parseCommand providedSuggestion 1`] = `
+exports[`parseCommand > providedSuggestion 1`] = `
 {
   "activeToken": undefined,
   "argumentDescription": "Shell to generate completions for",

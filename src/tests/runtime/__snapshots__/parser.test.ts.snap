@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`multi-shell whitespace escaping [zsh] escaped space: cmd dir\\ name 1`] = `
+exports[`multi-shell whitespace escaping > [zsh] escaped space: cmd dir\\ name 1`] = `
 [
   {
     "complete": true,
@@ -17,11 +17,11 @@ exports[`multi-shell whitespace escaping [zsh] escaped space: cmd dir\\ name 1`]
 ]
 `;
 
-exports[`parseCommand [zsh]     1`] = `[]`;
+exports[`parseCommand > [zsh]     1`] = `[]`;
 
-exports[`parseCommand [zsh]  1`] = `[]`;
+exports[`parseCommand > [zsh]  1`] = `[]`;
 
-exports[`parseCommand [zsh] \`cmd1\` 1`] = `
+exports[`parseCommand > [zsh] \`cmd1\` 1`] = `
 [
   {
     "complete": false,
@@ -33,7 +33,7 @@ exports[`parseCommand [zsh] \`cmd1\` 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd	arg 1`] = `
+exports[`parseCommand > [zsh] cmd	arg 1`] = `
 [
   {
     "complete": true,
@@ -50,7 +50,7 @@ exports[`parseCommand [zsh] cmd	arg 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd    1`] = `
+exports[`parseCommand > [zsh] cmd    1`] = `
 [
   {
     "complete": true,
@@ -61,7 +61,7 @@ exports[`parseCommand [zsh] cmd    1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd  1`] = `
+exports[`parseCommand > [zsh] cmd  1`] = `
 [
   {
     "complete": true,
@@ -72,7 +72,7 @@ exports[`parseCommand [zsh] cmd  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd ""  1`] = `
+exports[`parseCommand > [zsh] cmd ""  1`] = `
 [
   {
     "complete": true,
@@ -90,7 +90,7 @@ exports[`parseCommand [zsh] cmd ""  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd "a"b "c"d 1`] = `
+exports[`parseCommand > [zsh] cmd "a"b "c"d 1`] = `
 [
   {
     "complete": true,
@@ -117,7 +117,7 @@ exports[`parseCommand [zsh] cmd "a"b "c"d 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd "incomplete 1`] = `
+exports[`parseCommand > [zsh] cmd "incomplete 1`] = `
 [
   {
     "complete": true,
@@ -135,7 +135,7 @@ exports[`parseCommand [zsh] cmd "incomplete 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd "it's"  1`] = `
+exports[`parseCommand > [zsh] cmd "it's"  1`] = `
 [
   {
     "complete": true,
@@ -153,7 +153,7 @@ exports[`parseCommand [zsh] cmd "it's"  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd "value"  1`] = `
+exports[`parseCommand > [zsh] cmd "value"  1`] = `
 [
   {
     "complete": true,
@@ -171,7 +171,7 @@ exports[`parseCommand [zsh] cmd "value"  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd "value'  1`] = `
+exports[`parseCommand > [zsh] cmd "value'  1`] = `
 [
   {
     "complete": true,
@@ -189,7 +189,7 @@ exports[`parseCommand [zsh] cmd "value'  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd "value'\\"\\""  1`] = `
+exports[`parseCommand > [zsh] cmd "value'\\"\\""  1`] = `
 [
   {
     "complete": true,
@@ -207,7 +207,7 @@ exports[`parseCommand [zsh] cmd "value'\\"\\""  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd ''  1`] = `
+exports[`parseCommand > [zsh] cmd ''  1`] = `
 [
   {
     "complete": true,
@@ -225,7 +225,7 @@ exports[`parseCommand [zsh] cmd ''  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd 'hello' "world"  1`] = `
+exports[`parseCommand > [zsh] cmd 'hello' "world"  1`] = `
 [
   {
     "complete": true,
@@ -250,7 +250,7 @@ exports[`parseCommand [zsh] cmd 'hello' "world"  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd 'incomplete 1`] = `
+exports[`parseCommand > [zsh] cmd 'incomplete 1`] = `
 [
   {
     "complete": true,
@@ -268,7 +268,7 @@ exports[`parseCommand [zsh] cmd 'incomplete 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd 'value'  1`] = `
+exports[`parseCommand > [zsh] cmd 'value'  1`] = `
 [
   {
     "complete": true,
@@ -286,7 +286,7 @@ exports[`parseCommand [zsh] cmd 'value'  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag value 1`] = `
+exports[`parseCommand > [zsh] cmd --flag value 1`] = `
 [
   {
     "complete": true,
@@ -309,7 +309,7 @@ exports[`parseCommand [zsh] cmd --flag value 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag= 1`] = `
+exports[`parseCommand > [zsh] cmd --flag= 1`] = `
 [
   {
     "complete": true,
@@ -326,7 +326,7 @@ exports[`parseCommand [zsh] cmd --flag= 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag="" 1`] = `
+exports[`parseCommand > [zsh] cmd --flag="" 1`] = `
 [
   {
     "complete": true,
@@ -350,7 +350,7 @@ exports[`parseCommand [zsh] cmd --flag="" 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag="value"  1`] = `
+exports[`parseCommand > [zsh] cmd --flag="value"  1`] = `
 [
   {
     "complete": true,
@@ -374,7 +374,7 @@ exports[`parseCommand [zsh] cmd --flag="value"  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag='' 1`] = `
+exports[`parseCommand > [zsh] cmd --flag='' 1`] = `
 [
   {
     "complete": true,
@@ -398,7 +398,7 @@ exports[`parseCommand [zsh] cmd --flag='' 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag='value'  1`] = `
+exports[`parseCommand > [zsh] cmd --flag='value'  1`] = `
 [
   {
     "complete": true,
@@ -422,7 +422,7 @@ exports[`parseCommand [zsh] cmd --flag='value'  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd --flag=value 1`] = `
+exports[`parseCommand > [zsh] cmd --flag=value 1`] = `
 [
   {
     "complete": true,
@@ -445,7 +445,7 @@ exports[`parseCommand [zsh] cmd --flag=value 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f  1`] = `
+exports[`parseCommand > [zsh] cmd -f  1`] = `
 [
   {
     "complete": true,
@@ -462,7 +462,7 @@ exports[`parseCommand [zsh] cmd -f  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f 'value'  1`] = `
+exports[`parseCommand > [zsh] cmd -f 'value'  1`] = `
 [
   {
     "complete": true,
@@ -486,7 +486,7 @@ exports[`parseCommand [zsh] cmd -f 'value'  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f 1`] = `
+exports[`parseCommand > [zsh] cmd -f 1`] = `
 [
   {
     "complete": true,
@@ -503,7 +503,7 @@ exports[`parseCommand [zsh] cmd -f 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f 2`] = `
+exports[`parseCommand > [zsh] cmd -f 2`] = `
 [
   {
     "complete": true,
@@ -520,7 +520,7 @@ exports[`parseCommand [zsh] cmd -f 2`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f value  1`] = `
+exports[`parseCommand > [zsh] cmd -f value  1`] = `
 [
   {
     "complete": true,
@@ -543,7 +543,7 @@ exports[`parseCommand [zsh] cmd -f value  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f= 1`] = `
+exports[`parseCommand > [zsh] cmd -f= 1`] = `
 [
   {
     "complete": true,
@@ -560,7 +560,7 @@ exports[`parseCommand [zsh] cmd -f= 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f="value"  1`] = `
+exports[`parseCommand > [zsh] cmd -f="value"  1`] = `
 [
   {
     "complete": true,
@@ -584,7 +584,7 @@ exports[`parseCommand [zsh] cmd -f="value"  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f='' 1`] = `
+exports[`parseCommand > [zsh] cmd -f='' 1`] = `
 [
   {
     "complete": true,
@@ -608,7 +608,7 @@ exports[`parseCommand [zsh] cmd -f='' 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f='val 1`] = `
+exports[`parseCommand > [zsh] cmd -f='val 1`] = `
 [
   {
     "complete": true,
@@ -632,7 +632,7 @@ exports[`parseCommand [zsh] cmd -f='val 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd -f=value  1`] = `
+exports[`parseCommand > [zsh] cmd -f=value  1`] = `
 [
   {
     "complete": true,
@@ -655,7 +655,7 @@ exports[`parseCommand [zsh] cmd -f=value  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd 1`] = `
+exports[`parseCommand > [zsh] cmd 1`] = `
 [
   {
     "complete": false,
@@ -666,7 +666,7 @@ exports[`parseCommand [zsh] cmd 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd dir\\ 1/dir\\ 2/item1 1`] = `
+exports[`parseCommand > [zsh] cmd dir\\ 1/dir\\ 2/item1 1`] = `
 [
   {
     "complete": true,
@@ -683,7 +683,7 @@ exports[`parseCommand [zsh] cmd dir\\ 1/dir\\ 2/item1 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd value  1`] = `
+exports[`parseCommand > [zsh] cmd value  1`] = `
 [
   {
     "complete": true,
@@ -700,7 +700,7 @@ exports[`parseCommand [zsh] cmd value  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 "item1"item2 "item3" 1`] = `
+exports[`parseCommand > [zsh] cmd1 "item1"item2 "item3" 1`] = `
 [
   {
     "complete": true,
@@ -726,7 +726,7 @@ exports[`parseCommand [zsh] cmd1 "item1"item2 "item3" 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 "item1"item2 1`] = `
+exports[`parseCommand > [zsh] cmd1 "item1"item2 1`] = `
 [
   {
     "complete": true,
@@ -745,7 +745,7 @@ exports[`parseCommand [zsh] cmd1 "item1"item2 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 "item1"item2 item3 1`] = `
+exports[`parseCommand > [zsh] cmd1 "item1"item2 item3 1`] = `
 [
   {
     "complete": true,
@@ -770,7 +770,7 @@ exports[`parseCommand [zsh] cmd1 "item1"item2 item3 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 | cmd2  1`] = `
+exports[`parseCommand > [zsh] cmd1 | cmd2  1`] = `
 [
   {
     "complete": true,
@@ -781,7 +781,7 @@ exports[`parseCommand [zsh] cmd1 | cmd2  1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 | cmd2 && cmd3 ; cmd4 1`] = `
+exports[`parseCommand > [zsh] cmd1 | cmd2 && cmd3 ; cmd4 1`] = `
 [
   {
     "complete": false,
@@ -792,7 +792,7 @@ exports[`parseCommand [zsh] cmd1 | cmd2 && cmd3 ; cmd4 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 || cmd2 | cmd3 1`] = `
+exports[`parseCommand > [zsh] cmd1 || cmd2 | cmd3 1`] = `
 [
   {
     "complete": false,
@@ -803,7 +803,7 @@ exports[`parseCommand [zsh] cmd1 || cmd2 | cmd3 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] cmd1 - 1`] = `
+exports[`parseCommand > [zsh] cmd1 - 1`] = `
 [
   {
     "complete": true,
@@ -820,7 +820,7 @@ exports[`parseCommand [zsh] cmd1 - 1`] = `
 ]
 `;
 
-exports[`parseCommand [zsh] 😁 1`] = `
+exports[`parseCommand > [zsh] 😁 1`] = `
 [
   {
     "complete": false,

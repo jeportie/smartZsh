@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`aliasExpand don't expand when aliases are disabled 1`] = `
+exports[`aliasExpand > don't expand when aliases are disabled 1`] = `
 [
   {
     "complete": true,
@@ -11,7 +11,7 @@ exports[`aliasExpand don't expand when aliases are disabled 1`] = `
 ]
 `;
 
-exports[`aliasExpand expand on zsh aliases 1`] = `
+exports[`aliasExpand > expand on zsh aliases 1`] = `
 [
   {
     "complete": false,
@@ -22,7 +22,7 @@ exports[`aliasExpand expand on zsh aliases 1`] = `
 ]
 `;
 
-exports[`aliasExpand expand on zsh aliases 2`] = `
+exports[`aliasExpand > expand on zsh aliases 2`] = `
 [
   {
     "complete": true,
@@ -47,7 +47,7 @@ exports[`aliasExpand expand on zsh aliases 2`] = `
 ]
 `;
 
-exports[`aliasExpand expand on zsh aliases 3`] = `
+exports[`aliasExpand > expand on zsh aliases 3`] = `
 [
   {
     "complete": true,
@@ -58,7 +58,7 @@ exports[`aliasExpand expand on zsh aliases 3`] = `
 ]
 `;
 
-exports[`aliasExpand expand on zsh aliases 4`] = `
+exports[`aliasExpand > expand on zsh aliases 4`] = `
 [
   {
     "complete": true,
