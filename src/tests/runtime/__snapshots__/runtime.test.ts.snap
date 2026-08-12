@@ -733,19 +733,19 @@ exports[`parseCommand pathWithFileFilteredSuggestion 1`] = `
     "isOption": false,
     "isPath": true,
     "isPathComplete": false,
-    "token": "shell/shellIntegration.",
+    "token": "shell/shellIntegration-",
     "tokenLength": 23,
   },
   "suggestions": [
     {
       "allNames": [
-        "shellIntegration.bash",
+        "shellIntegration-env.zsh",
       ],
       "description": undefined,
       "hidden": undefined,
       "icon": "📄",
-      "insertValue": "shell/shellIntegration.bash",
-      "name": "shellIntegration.bash",
+      "insertValue": "shell/shellIntegration-env.zsh",
+      "name": "shellIntegration-env.zsh",
       "priority": 55,
       "type": "file",
     },
@@ -766,13 +766,13 @@ exports[`parseCommand pathWithFileSuggestion 1`] = `
   "suggestions": [
     {
       "allNames": [
-        "bash-preexec.sh",
+        "shellIntegration-env.zsh",
       ],
       "description": undefined,
       "hidden": undefined,
       "icon": "📄",
-      "insertValue": "shell/bash-preexec.sh",
-      "name": "bash-preexec.sh",
+      "insertValue": "shell/shellIntegration-env.zsh",
+      "name": "shellIntegration-env.zsh",
       "priority": 55,
       "type": "file",
     },

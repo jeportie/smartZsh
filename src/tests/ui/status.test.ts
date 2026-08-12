@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import os from "node:os";
 import { jest } from "@jest/globals";
 import type { ShellUse } from "@microsoft/shell-use/test";
 import type { Shell } from "@microsoft/shell-use";
 import { closeSession, startSession, startShell } from "./helpers";
 
-const shell: Shell = os.platform() == "darwin" ? "zsh" : os.platform() == "linux" ? "bash" : "powershell";
+const shell: Shell = "zsh";
 
 jest.retryTimes(2, { logErrorsBeforeRetry: true });
 
