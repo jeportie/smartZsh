@@ -69,7 +69,11 @@
     "comit",
     "Portier",
     "HISTFILE",
-    "TYPELESS"
+    "TYPELESS",
+    "CURRFIX",
+    "davelosert",
+    "conventionalcommits",
+    "nvmrc"
   ],
   "ignorePaths": ["node_modules/**", "build/**", "coverage/**", "**/*.snap", "package-lock.json", "docs/superpowers/**", "src/tests/fixtures/**"]
 }
