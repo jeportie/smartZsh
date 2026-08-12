@@ -17,7 +17,7 @@ The full effort is decomposed into phases, each with its own spec → plan → i
 - **Phase A — Strip down + rebrand (this spec):** reduce to zsh/macOS only, drop packaging, rename to `smartzsh`.
 - **Phase C — Tooling/workflow:** `hk` (replacing husky), commitlint, CI/CD gates, align npm scripts,
   formalize the `dev` + feature-branch workflow (`CURRFIX.md`, branch protection), revisit eslint/jest →
-  the familiar stack. *(The `dev` branch itself already exists — created to host Phase A work.)*
+  the familiar stack. _(The `dev` branch itself already exists — created to host Phase A work.)_
 - **Phase D — Agent pipeline:** import + adapt the TDD crew (orchestrator/thinker/operator/review/quality/triage),
   skills, `settings.json`, `INTEL.md`, wired to Phase C's gates.
 - **Phase E — Features:** on-the-fly/dynamic intellisense, manual hover, history-based suggestions,
@@ -70,22 +70,22 @@ packaging. Behaviour for the zsh/macOS/WezTerm path is unchanged; everything els
   `shellIntegration.nu`, `shellIntegration.xsh`. Keep: `shellIntegration-{env,login,profile,rc}.zsh`.
 - **Packaging**: `scripts/pkg.ts`, `scripts/pkg-base.ts`, `scripts/bin.js`, `Formula/`,
   `.github/workflows/release.yml`.
-- **Perf harness**: `scripts/perf/*` and the `perf`, `perf:session`, `perf:profile` npm scripts. *(Confirmed drop; restorable from git history if missed.)*
+- **Perf harness**: `scripts/perf/*` and the `perf`, `perf:session`, `perf:profile` npm scripts. _(Confirmed drop; restorable from git history if missed.)_
 - **MS governance**: `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`, `.github/ISSUE_TEMPLATE/*`.
 
 ### 5.2 Files collapsed (simplified, kept)
 
-| File | Change |
-| --- | --- |
-| `src/utils/shell.ts` | Collapse to zsh-only constants. Remove the 8-value `Shell` enum arms, `supportedShells`/`initSupportedShells`/`aliasSupportedShells` platform gating, Windows Git-Bash discovery (`gitBashPath`/`getGitBashPaths`), and every per-shell `switch` (`getProfilePath`, `getShellConfigName`, `getBackspaceSequence`, `getPathSeparator`, `getShellPromptRewrites`, `getShellSourceCommand`, `getShellConfig`). |
-| `src/isterm/pty.ts` | Drop win32 cwd sanitization, and the non-zsh arms of `convertToPtyTarget` / `convertToPtyEnv` (keep the Zsh `ZDOTDIR` path). |
-| `src/runtime/utils.ts` | Drop `getExecutionShell` git-bash branch and the `getShellQuoteChar`/`getShellWhitespaceEscapeChar` switches; keep zsh behaviour. |
-| `src/runtime/alias.ts` | Remove `loadBashAliases` + dispatch; keep `loadZshAliases`. |
-| `src/utils/constants.ts` | Remove `win32` guards in XDG resolution. |
-| `src/ui/stdioProxy.ts` + `src/utils/ansi.ts` | Remove win32 input-mode handling (`enableWin32InputMode`/`disableWin32InputMode`). **Keep** kitty/xterm handling — WezTerm relies on it. |
-| `src/isterm/commandManager.ts` | Remove the pwsh/powershell-only inline-suggestion detection in `_isSuggestion`. |
-| `src/utils/node.ts` | Keep `unpackResources`' local-copy logic (it populates the data dir on non-SEA installs) but remove the SEA-only branches; resolve `shell/` + fig specs from the **package root** (`import.meta.url`) instead of `process.cwd()`, so a linked install works from any directory. |
-| `src/commands/complete.ts` | Default shell = zsh; remove `win32 ? Cmd : Bash`. Plan greps for any residual `win32`/`Cmd`/`Bash` defaults elsewhere. |
+| File                                         | Change                                                                                                                                                                                                                                                                                                                                                                                                      |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/utils/shell.ts`                         | Collapse to zsh-only constants. Remove the 8-value `Shell` enum arms, `supportedShells`/`initSupportedShells`/`aliasSupportedShells` platform gating, Windows Git-Bash discovery (`gitBashPath`/`getGitBashPaths`), and every per-shell `switch` (`getProfilePath`, `getShellConfigName`, `getBackspaceSequence`, `getPathSeparator`, `getShellPromptRewrites`, `getShellSourceCommand`, `getShellConfig`). |
+| `src/isterm/pty.ts`                          | Drop win32 cwd sanitization, and the non-zsh arms of `convertToPtyTarget` / `convertToPtyEnv` (keep the Zsh `ZDOTDIR` path).                                                                                                                                                                                                                                                                                |
+| `src/runtime/utils.ts`                       | Drop `getExecutionShell` git-bash branch and the `getShellQuoteChar`/`getShellWhitespaceEscapeChar` switches; keep zsh behaviour.                                                                                                                                                                                                                                                                           |
+| `src/runtime/alias.ts`                       | Remove `loadBashAliases` + dispatch; keep `loadZshAliases`.                                                                                                                                                                                                                                                                                                                                                 |
+| `src/utils/constants.ts`                     | Remove `win32` guards in XDG resolution.                                                                                                                                                                                                                                                                                                                                                                    |
+| `src/ui/stdioProxy.ts` + `src/utils/ansi.ts` | Remove win32 input-mode handling (`enableWin32InputMode`/`disableWin32InputMode`). **Keep** kitty/xterm handling — WezTerm relies on it.                                                                                                                                                                                                                                                                    |
+| `src/isterm/commandManager.ts`               | Remove the pwsh/powershell-only inline-suggestion detection in `_isSuggestion`.                                                                                                                                                                                                                                                                                                                             |
+| `src/utils/node.ts`                          | Keep `unpackResources`' local-copy logic (it populates the data dir on non-SEA installs) but remove the SEA-only branches; resolve `shell/` + fig specs from the **package root** (`import.meta.url`) instead of `process.cwd()`, so a linked install works from any directory.                                                                                                                             |
+| `src/commands/complete.ts`                   | Default shell = zsh; remove `win32 ? Cmd : Bash`. Plan greps for any residual `win32`/`Cmd`/`Bash` defaults elsewhere.                                                                                                                                                                                                                                                                                      |
 
 ### 5.3 Rebrand (user-facing only)
 
@@ -114,7 +114,7 @@ This is a minimal dev convenience only; the full tooling/workflow (`hk`, commitl
 
 ## 6. Validation strategy (test all the way along)
 
-The refactor is a *collapse* of the zsh path, so behaviour preservation is proven by tests, not asserted.
+The refactor is a _collapse_ of the zsh path, so behaviour preservation is proven by tests, not asserted.
 
 1. **Regression baseline first (golden master).** Before deleting anything, assess zsh-path coverage and
    add **characterization tests** that lock current zsh/macOS behaviour: shell-config/rc-snippet generation

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import convert from "color-convert";
 import { IBufferCell, IBufferLine, IMarker, Terminal } from "@xterm/headless";
 import { getShellPromptRewrites, Shell } from "../utils/shell.js";
@@ -29,7 +26,6 @@ export class CommandManager {
   #activeCommand: TerminalCommand;
   #terminal: Terminal;
   #acceptedCommandLines: Set<number>;
-  #shell: Shell;
   #promptRewrites: boolean;
   #state: CommandState = {};
   #stateVersion = 0;
@@ -37,7 +33,6 @@ export class CommandManager {
 
   constructor(terminal: Terminal, shell: Shell) {
     this.#terminal = terminal;
-    this.#shell = shell;
     this.#activeCommand = {};
     this.#acceptedCommandLines = new Set();
     this.#promptRewrites = getShellPromptRewrites(shell);

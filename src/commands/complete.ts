@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { Command } from "commander";
 import { Shell } from "../utils/shell.js";
 import { initializeRuntime } from "../runtime/initialize.js";

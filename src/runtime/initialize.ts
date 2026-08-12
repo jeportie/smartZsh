@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { setupZshDotfiles, Shell } from "../utils/shell.js";
 
 type RuntimeModule = typeof import("./runtime.js");

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 const ESC = "\u001B";
 const CSI = ESC + "[";
 const OSC = "\u001B]";

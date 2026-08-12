@@ -40,6 +40,7 @@ and `npm run e2e` all pass locally and git hooks enforce lint-staged + conventio
 ## 5. Detailed changes
 
 ### 5.1 Test → vitest
+
 - Delete `jest.config.cjs`, `jest.e2e.config.cjs`; add `vitest.config.ts` (globals, `include: src/tests/**/*.test.ts` excluding `src/tests/ui/**`, v8 coverage with thresholds commented) and `vitest.e2e.config.ts` (only `src/tests/ui/**`, `fileParallelism: false`, `testTimeout: 120_000` — replaces `maxWorkers:1`).
 - Migrate every test file: drop `@jest/globals` imports (vitest globals), `jest.fn`→`vi.fn`, `jest.unstable_mockModule`→`vi.mock`, `jest.clearAllMocks`→`vi.clearAllMocks`, `jest.retryTimes(2)`→`test.retry(2)` (or config `retry`), and regenerate snapshots (jest→vitest `.snap` format).
 - `@microsoft/shell-use` stays untouched (runner-agnostic: `dependencies: {}`, its own tests use `node --test`).
@@ -47,26 +48,31 @@ and `npm run e2e` all pass locally and git hooks enforce lint-staged + conventio
 - Remove `jest`, `ts-jest`, `@types/jest` devDeps and the `watchman: false` workaround (vitest doesn't use watchman). Keep the sandbox / XDG data-dir / `dirname(process.execPath)` PATH needs (carry over unchanged in the e2e helpers).
 
 ### 5.2 Lint → eslint 9 flat + prettier
+
 - Delete `.eslintrc.cjs`; add `eslint.config.js` (flat) using `@eslint/js` + `typescript-eslint` (v8, for eslint 9) + `eslint-config-prettier`. No `eslint-plugin-header`, no `eslint-plugin-react` unless a `.tsx` actually needs it.
 - Remove the per-file `// Copyright (c) Microsoft Corporation. // Licensed under the MIT License.` header from all `src/**` files.
 - `lint` = `eslint .` (+ `prettier . --check` retained or folded in); `format` = `prettier . --write`.
 - Bump devDeps: `eslint@^9`, `typescript-eslint@^8`, `@eslint/js@^9`, `eslint-config-prettier@^9`; drop `@typescript-eslint/*@6`, `eslint-plugin-header`, `eslint-plugin-react`.
 
 ### 5.3 Quality tools
+
 - **cspell:** add `cspell.json` (scan `**/*.{js,mjs,cjs,ts,tsx,md,json,yml}`) + a project vocabulary (smartzsh, zsh, wezterm, zdotdir, isterm, xterm, napi, fig terms, etc.); `spellcheck` = `cspell --no-progress ...`.
 - **secretlint:** add `.secretlintrc.json` (preset-recommend + pattern) + `.secretlintignore`; `secretlint` = `secretlint "**/*" --maskSecrets` (or `./src`).
 
 ### 5.4 `check` bundle
+
 - `typecheck` = `tsc --noEmit`.
 - `check` = `npm run lint && npm run secretlint && npm run spellcheck && npm run typecheck && npm test`.
 - e2e stays a **separate** gate (`npm run e2e`) — slow, needs a PTY.
 
 ### 5.5 Commit hooks
+
 - `husky` reinstated: `prepare` = `husky`. `.husky/pre-commit` = `npx --no lint-staged`; `.husky/commit-msg` = `npx --no -- commitlint --edit "$1"`.
 - `lint-staged` config: `*.{ts,tsx}` → `eslint --fix` + `prettier --write`.
 - `commitlint.config.js`: `@commitlint/config-conventional` (+ the cspell plugin, matching tskickstart).
 
 ### 5.6 e2e scripts
+
 - smartzsh's PTY suite (`src/tests/ui/**`) **is** the e2e; alias both `e2e` and `e2e:gen` to it so the Phase D `quality` agent's `npm run e2e:gen` works. No gen/verify tiers (tskickstart's scaffolding harness doesn't apply here).
 
 ## 6. Validation

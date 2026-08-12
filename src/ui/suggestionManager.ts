@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { Suggestion, SuggestionBlob } from "../runtime/model.js";
 import type { ISTerm, ISTermPatch } from "../isterm/pty.js";
 import { renderBox, truncateText, truncateMultilineText } from "./utils.js";

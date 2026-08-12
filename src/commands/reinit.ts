@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { Command } from "commander";
 import { render } from "../ui/ui-reinit.js";
 

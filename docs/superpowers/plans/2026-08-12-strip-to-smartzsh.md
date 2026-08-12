@@ -4,7 +4,7 @@
 
 **Goal:** Reduce the cross-platform inshellisense runtime to a lean, zsh-on-macOS autocomplete tool, personally rebranded as `smartzsh`, built and run locally with no single-executable packaging.
 
-**Architecture:** This is a *regression-guarded refactor*, not a greenfield build. It is mostly deletion and collapse of an existing PTY-wrapped-shell + headless-xterm + `@withfig/autocomplete` runtime. We first lock the zsh path with golden-master tests, then strip in small verified increments (each ends green), then rebrand, then reduce the terminal-facing surface, verifying at every step. Behaviour for the zsh/macOS/WezTerm path is unchanged.
+**Architecture:** This is a _regression-guarded refactor_, not a greenfield build. It is mostly deletion and collapse of an existing PTY-wrapped-shell + headless-xterm + `@withfig/autocomplete` runtime. We first lock the zsh path with golden-master tests, then strip in small verified increments (each ends green), then rebrand, then reduce the terminal-facing surface, verifying at every step. Behaviour for the zsh/macOS/WezTerm path is unchanged.
 
 **Tech Stack:** TypeScript (ESM, `tsc` build), Node ≥18, jest + ts-jest (unit + snapshot), `@microsoft/shell-use` (e2e PTY harness), node-pty, `@xterm/headless`, `@withfig/autocomplete`, commander, toml/ajv.
 
@@ -24,30 +24,32 @@
 
 ## File Structure (what changes and why)
 
-| File | Change |
-| --- | --- |
-| `package.json` | Add `try` script; remove packaging/perf scripts; rebrand name/bin/author/links; `"private": true`. |
-| `src/tests/utils/shell.test.ts` | Add zsh golden-master block; later trim non-zsh `getShellSourceCommand` cases + legacy tests. |
-| `src/tests/ui/helpers.ts` | Reduce e2e `configs` to zsh-only. |
-| `shell/` | Delete the 6 non-zsh files; keep the 4 `*.zsh`. |
-| `scripts/`, `Formula/`, `.github/workflows/release.yml`, MS governance md, `.github/ISSUE_TEMPLATE/` | Delete. |
-| `src/runtime/alias.ts`, `src/runtime/utils.ts` | Drop bash/git-bash; zsh-only shell-exec. |
-| `src/isterm/pty.ts` | Zsh-only spawn target/args/env; drop win32 cwd sanitization. |
-| `src/ui/stdioProxy.ts`, `src/utils/ansi.ts`, `src/isterm/commandManager.ts`, `src/commands/complete.ts` | Remove win32 input mode + pwsh suggestion detection; default shell zsh. |
-| `src/utils/shell.ts` | Collapse per-shell switches to zsh; remove git-bash discovery; (Task 12) narrow `Shell` enum. |
-| `src/utils/node.ts` | Remove SEA branches; resolve assets from package root, not cwd. |
-| `src/utils/constants.ts`, `src/utils/config.ts` | Rebrand folder/rc names; drop win32 + legacy resource handling. |
-| `src/commands/reinit.ts`, `src/commands/doctor.ts` (+ `ui-*`) | Drop legacy migration/detection. |
-| `README.md`, `LICENSE` | Rewrite / dual-copyright. |
+| File                                                                                                    | Change                                                                                             |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `package.json`                                                                                          | Add `try` script; remove packaging/perf scripts; rebrand name/bin/author/links; `"private": true`. |
+| `src/tests/utils/shell.test.ts`                                                                         | Add zsh golden-master block; later trim non-zsh `getShellSourceCommand` cases + legacy tests.      |
+| `src/tests/ui/helpers.ts`                                                                               | Reduce e2e `configs` to zsh-only.                                                                  |
+| `shell/`                                                                                                | Delete the 6 non-zsh files; keep the 4 `*.zsh`.                                                    |
+| `scripts/`, `Formula/`, `.github/workflows/release.yml`, MS governance md, `.github/ISSUE_TEMPLATE/`    | Delete.                                                                                            |
+| `src/runtime/alias.ts`, `src/runtime/utils.ts`                                                          | Drop bash/git-bash; zsh-only shell-exec.                                                           |
+| `src/isterm/pty.ts`                                                                                     | Zsh-only spawn target/args/env; drop win32 cwd sanitization.                                       |
+| `src/ui/stdioProxy.ts`, `src/utils/ansi.ts`, `src/isterm/commandManager.ts`, `src/commands/complete.ts` | Remove win32 input mode + pwsh suggestion detection; default shell zsh.                            |
+| `src/utils/shell.ts`                                                                                    | Collapse per-shell switches to zsh; remove git-bash discovery; (Task 12) narrow `Shell` enum.      |
+| `src/utils/node.ts`                                                                                     | Remove SEA branches; resolve assets from package root, not cwd.                                    |
+| `src/utils/constants.ts`, `src/utils/config.ts`                                                         | Rebrand folder/rc names; drop win32 + legacy resource handling.                                    |
+| `src/commands/reinit.ts`, `src/commands/doctor.ts` (+ `ui-*`)                                           | Drop legacy migration/detection.                                                                   |
+| `README.md`, `LICENSE`                                                                                  | Rewrite / dual-copyright.                                                                          |
 
 ---
 
 ## Task 1: Baseline + `npm run try`
 
 **Files:**
+
 - Modify: `package.json` (`scripts`)
 
 **Interfaces:**
+
 - Produces: `npm run try` = build + launch the session (used for manual checkpoints in later tasks).
 
 - [ ] **Step 1: Install deps and record the baseline**
@@ -87,9 +89,11 @@ git commit -m "chore: add npm run try for local manual testing"
 Lock current zsh behaviour of the exported helpers we will collapse, so the collapse is provably behaviour-preserving.
 
 **Files:**
+
 - Modify: `src/tests/utils/shell.test.ts`
 
 **Interfaces:**
+
 - Consumes (already exported from `src/utils/shell.ts`): `getShellConfig(shell)`, `getPathSeparator(shell)`, `getShellPromptRewrites(shell)`, `getBackspaceSequence(press, shell)`, `Shell`.
 
 - [ ] **Step 1: Add the golden-master describe block**
@@ -147,6 +151,7 @@ git commit -m "test: add zsh-path golden-master characterization tests"
 Deleting `shellIntegration.bash` etc. would break their e2e configs, so reduce the e2e matrix first, in the same task.
 
 **Files:**
+
 - Modify: `src/tests/ui/helpers.ts:21-33`
 - Delete: `shell/bash-preexec.sh`, `shell/shellIntegration.bash`, `shell/shellIntegration.fish`, `shell/shellIntegration.ps1`, `shell/shellIntegration.nu`, `shell/shellIntegration.xsh`
 
@@ -191,6 +196,7 @@ git commit -m "chore: reduce e2e to zsh and remove non-zsh shell integration fil
 All build-time / repo-meta files, unreferenced by `src/`.
 
 **Files:**
+
 - Delete: `scripts/pkg.ts`, `scripts/pkg-base.ts`, `scripts/bin.js`, `scripts/perf/` (whole dir), `Formula/` (whole dir), `.github/workflows/release.yml`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `SUPPORT.md`, `.github/ISSUE_TEMPLATE/` (whole dir)
 - Modify: `package.json` (remove `package`, `package:base`, `perf`, `perf:session`, `perf:profile` scripts)
 
@@ -228,9 +234,11 @@ git commit -m "chore: remove SEA packaging, release, perf, and Microsoft governa
 ## Task 5: Collapse `runtime/alias.ts` + `runtime/utils.ts` to zsh
 
 **Files:**
+
 - Modify: `src/runtime/alias.ts`, `src/runtime/utils.ts`, `src/tests/runtime/alias.test.ts`
 
 **Interfaces:**
+
 - Produces: `getShellWhitespaceEscapeChar()` (no args), `escapePath(value, shell)` unchanged signature, `buildExecuteShellCommand(timeout, signal?)` unchanged signature.
 
 - [ ] **Step 1: Collapse `alias.ts`**
@@ -282,6 +290,7 @@ git commit -m "refactor(runtime): collapse alias loading and shell-exec to zsh"
 ## Task 6: Collapse `isterm/pty.ts` to zsh
 
 **Files:**
+
 - Modify: `src/isterm/pty.ts`
 
 - [ ] **Step 1: Simplify `_sanitizedCwd` (162-175)**
@@ -329,6 +338,7 @@ git commit -m "refactor(isterm): collapse pty spawn target and env to zsh"
 ## Task 7: Remove win32 input mode + pwsh suggestion detection
 
 **Files:**
+
 - Modify: `src/utils/ansi.ts`, `src/ui/stdioProxy.ts`, `src/isterm/commandManager.ts`, `src/commands/complete.ts`, `src/tests/utils/stdioProxy.test.ts`, and any wiring found by grep (e.g. `src/ui/ui-root.ts`)
 
 - [ ] **Step 1: `ansi.ts` — drop win32 input-mode escapes**
@@ -389,6 +399,7 @@ git commit -m "refactor(ui): remove win32 input mode and pwsh suggestion detecti
 Simplify every per-shell switch to its zsh value and remove git-bash discovery. **Keep** the `Shell` enum members (narrowed in Task 12) and keep the snippet command as `is` (rebranded in Task 10) so the Task 2 golden master stays green here.
 
 **Files:**
+
 - Modify: `src/utils/shell.ts`, `src/tests/utils/shell.test.ts`
 
 - [ ] **Step 1: Remove git-bash discovery**
@@ -399,7 +410,7 @@ Delete `cachedGitBashPath` (209), `gitBashPath` (211), `getGitBashPath` (213-221
 
 - `getProfilePath` (115-132): `return path.join(os.homedir(), ".zshrc");` (drop the switch + `safeExec`/`find` if now unused — grep before removing).
 - `getShellConfigName` (143-161): `return "init.zsh";`.
-- `getShellSourceCommand` (295-320): keep only the Zsh branch → `return \`[[ -f ${posixPath} ]] && source ${posixPath}\`;` (retain `getShellInitPath`, `quotePosixPath`; drop `quotePowerShellPath` if unused).
+- `getShellSourceCommand` (295-320): keep only the Zsh branch → `return \`[[-f ${posixPath}]] && source ${posixPath}\`;`(retain`getShellInitPath`, `quotePosixPath`; drop `quotePowerShellPath` if unused).
 - `getShellConfig` (322-371): keep only the Zsh branch (325-331), still using `is -s zsh` for now.
 - `getBackspaceSequence` (258-259): `=> press[1].sequence;`.
 - `getPathSeparator` (261): `=> path.sep;`.
@@ -432,9 +443,11 @@ git commit -m "refactor(shell): collapse config helpers to zsh"
 Remove SEA-only branches from `node.ts` and resolve `shell/` + fig specs from the **package root** (`import.meta.url`) instead of `process.cwd()`, so a linked `smartzsh` finds its files from any directory.
 
 **Files:**
+
 - Modify: `src/utils/node.ts`
 
 **Interfaces:**
+
 - Produces: `unpackResources(resourcesPath?)` unchanged signature; `checkUnpackedVersion()` unchanged.
 
 - [ ] **Step 1: Add a package-root helper and drop the SEA import**
@@ -457,9 +470,7 @@ Remove `getAssetKeys` (16-30), `getAssetFolder`'s callers stay, `copyAssets` (57
 const unpackSpecs = async (resources: ResourcePaths): Promise<void> => {
   const autocompleteSpecFolderPath = path.join(packageRoot, "node_modules", "@withfig", "autocomplete", "build");
   const entries = await fsAsync.readdir(autocompleteSpecFolderPath, { recursive: true });
-  const files = entries
-    .filter((f) => fs.statSync(path.join(autocompleteSpecFolderPath, f.toString())).isFile())
-    .map((f) => f.toString());
+  const files = entries.filter((f) => fs.statSync(path.join(autocompleteSpecFolderPath, f.toString())).isFile()).map((f) => f.toString());
   await copyFiles("spec", files, autocompleteSpecFolderPath, resources);
 
   const packageJsonPath = path.join(resources.spec, "package.json");
@@ -505,6 +516,7 @@ git commit -m "fix(resources): resolve shell and spec assets from package root, 
 ## Task 10: Rebrand identity to `smartzsh`
 
 **Files:**
+
 - Modify: `package.json`, `LICENSE`, `src/utils/constants.ts`, `src/utils/config.ts`, `src/utils/shell.ts`, `src/commands/init.ts` / `doctor.ts` / `reinit.ts` / `uninstall.ts` and their `src/ui/ui-*.ts` output strings, `src/tests/utils/__snapshots__/shell.test.ts.snap`
 
 - [ ] **Step 1: `package.json` identity**
@@ -552,6 +564,7 @@ git commit -m "refactor: rebrand inshellisense to smartzsh"
 Remove the `~/.inshellisense` migration/detection cruft (meaningless for a fresh smartzsh) and the win32 XDG guards.
 
 **Files:**
+
 - Modify: `src/utils/constants.ts`, `src/utils/shell.ts`, `src/commands/reinit.ts` (+ `src/ui/ui-reinit.ts`), `src/commands/doctor.ts` (+ `src/ui/ui-doctor.ts`), `src/tests/utils/shell.test.ts`
 
 - [ ] **Step 1: `constants.ts` — drop legacy + win32**
@@ -594,6 +607,7 @@ git commit -m "refactor: drop inshellisense legacy-resource migration and win32 
 Final source collapse — do this only after Tasks 5-11, when nothing references a non-zsh member.
 
 **Files:**
+
 - Modify: `src/utils/shell.ts`
 
 - [ ] **Step 1: Confirm no non-zsh references remain**
@@ -634,6 +648,7 @@ git commit -m "refactor(shell): narrow Shell enum to zsh"
 ## Task 13: Rewrite the README for `smartzsh`
 
 **Files:**
+
 - Modify: `README.md`
 
 - [ ] **Step 1: Replace the README**

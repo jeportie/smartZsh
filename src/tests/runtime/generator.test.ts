@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { vi } from "vitest";
 
 import { clearGeneratorState, clearImplicitGeneratorState, getGeneratorSuggestions } from "../../runtime/generatorCache.js";

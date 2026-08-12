@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { terminalSnapshot } from "@microsoft/shell-use/test";
 import type { ShellUse } from "@microsoft/shell-use/test";
 import { closeSession, configs, expectPrompt, returnChar, startSession } from "./helpers";

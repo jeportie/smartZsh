@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { Command } from "commander";
 import { loadConfig } from "../../utils/config.js";
 import { getSpecNames, loadLocalSpecsSet } from "../../runtime/runtime.js";

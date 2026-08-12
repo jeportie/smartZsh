@@ -19,15 +19,15 @@
 
 ## File Structure
 
-| File | Change |
-| --- | --- |
-| `vitest.config.ts`, `vitest.e2e.config.ts` | Create (replace `jest.config.cjs`, `jest.e2e.config.cjs`). |
-| `src/tests/**/*.test.ts` | Migrate jest APIs → vitest; regenerate `__snapshots__`. |
-| `eslint.config.js` | Create (replace `.eslintrc.cjs`); typescript-eslint flat. |
-| `src/**/*.ts` (+ `scripts`, configs) | Remove the 2-line MS copyright header. |
-| `cspell.json`, `.secretlintrc.json`, `.secretlintignore`, `commitlint.config.js` | Create. |
-| `.husky/pre-commit`, `.husky/commit-msg` | Fix. |
-| `package.json` | Scripts + devDeps. |
+| File                                                                             | Change                                                     |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `vitest.config.ts`, `vitest.e2e.config.ts`                                       | Create (replace `jest.config.cjs`, `jest.e2e.config.cjs`). |
+| `src/tests/**/*.test.ts`                                                         | Migrate jest APIs → vitest; regenerate `__snapshots__`.    |
+| `eslint.config.js`                                                               | Create (replace `.eslintrc.cjs`); typescript-eslint flat.  |
+| `src/**/*.ts` (+ `scripts`, configs)                                             | Remove the 2-line MS copyright header.                     |
+| `cspell.json`, `.secretlintrc.json`, `.secretlintignore`, `commitlint.config.js` | Create.                                                    |
+| `.husky/pre-commit`, `.husky/commit-msg`                                         | Fix.                                                       |
+| `package.json`                                                                   | Scripts + devDeps.                                         |
 
 ---
 
@@ -118,7 +118,7 @@ git rm jest.config.cjs jest.e2e.config.cjs
 git add -A && git commit -m "build: add vitest config and scripts, remove jest"
 ```
 
-*(Tests won't pass yet — the test files still use jest APIs; that's Task 3.)*
+_(Tests won't pass yet — the test files still use jest APIs; that's Task 3.)_
 
 ---
 
@@ -129,6 +129,7 @@ git add -A && git commit -m "build: add vitest config and scripts, remove jest"
 - [ ] **Step 1: Global jest→vitest API sweep**
 
 Across `src/tests/**`:
+
 - Remove `import { jest } from "@jest/globals";` (vitest provides `describe/test/expect` as globals; import `vi` from `"vitest"` where mocking is used).
 - `jest.fn` → `vi.fn`, `jest.clearAllMocks` → `vi.clearAllMocks`, `jest.spyOn` → `vi.spyOn`.
 - Remove per-test `jest.retryTimes(2, …)` in `autocomplete.test.ts` and `status.test.ts` (now handled by `retry: 2` in `vitest.e2e.config.ts`).
@@ -157,7 +158,7 @@ import { aliasExpand, loadAliases } from "../../runtime/alias.js"; // static imp
 - [ ] **Step 3: Regenerate snapshots under vitest**
 
 Run: `rm-free` regen — `npm test -- -u` then `npm run e2e -- -u` (sandbox off). vitest writes its own `__snapshots__` format.
-Review: `git diff --stat` — snapshot *content* should match Phase A; only the vitest serializer header differs. Any content change beyond that must be explained.
+Review: `git diff --stat` — snapshot _content_ should match Phase A; only the vitest serializer header differs. Any content change beyond that must be explained.
 
 - [ ] **Step 4: Verify unit + e2e green under vitest**
 
@@ -251,11 +252,44 @@ npm install -D cspell@^8
 {
   "version": "0.2",
   "words": [
-    "smartzsh", "smz", "zsh", "zshrc", "zshenv", "zprofile", "zlogin", "zdotdir",
-    "wezterm", "isterm", "xterm", "inshellisense", "withfig", "napi", "pty",
-    "commitlint", "cspell", "secretlint", "vitest", "tseslint", "cjs", "tsx",
-    "jeportie", "nushell", "xonsh", "pwsh", "posix", "kitty", "unicode", "OSC",
-    "toml", "ansi", "readline", "keypress", "cwd", "dotfiles", "reinit", "unpack"
+    "smartzsh",
+    "smz",
+    "zsh",
+    "zshrc",
+    "zshenv",
+    "zprofile",
+    "zlogin",
+    "zdotdir",
+    "wezterm",
+    "isterm",
+    "xterm",
+    "inshellisense",
+    "withfig",
+    "napi",
+    "pty",
+    "commitlint",
+    "cspell",
+    "secretlint",
+    "vitest",
+    "tseslint",
+    "cjs",
+    "tsx",
+    "jeportie",
+    "nushell",
+    "xonsh",
+    "pwsh",
+    "posix",
+    "kitty",
+    "unicode",
+    "OSC",
+    "toml",
+    "ansi",
+    "readline",
+    "keypress",
+    "cwd",
+    "dotfiles",
+    "reinit",
+    "unpack"
   ],
   "ignorePaths": ["node_modules/**", "build/**", "coverage/**", "**/*.snap", "package-lock.json"]
 }
@@ -282,6 +316,7 @@ npm install -D secretlint@^8 @secretlint/secretlint-rule-preset-recommend@^8 @se
 ```
 
 `.secretlintrc.json` (as tskickstart) + `.secretlintignore`:
+
 ```
 **/.env*
 **/*.snap
@@ -333,11 +368,15 @@ Copy tskickstart's `commitlint.config.js` verbatim (it references only `@commitl
 ```bash
 npx husky init      # writes prepare script + .husky/_
 ```
+
 `.husky/pre-commit`:
+
 ```
 npx --no lint-staged
 ```
+
 `.husky/commit-msg`:
+
 ```
 npx --no -- commitlint --edit "$1"
 ```

@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/* eslint-disable header/header */
-
 import { Command, Option } from "commander";
 
 import complete from "./commands/complete.js";

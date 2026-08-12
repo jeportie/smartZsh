@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import path from "node:path";
 import { resolveConfigFilePath, resolveResourcesPath, resolveXdgConfigHome, resolveXdgDataHome } from "../../utils/constants.js";
 

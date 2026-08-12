@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 // fork: https://github.com/xtermjs/xterm.js/blob/master/addons/addon-unicode11/src/UnicodeV11.ts
 
 const BMP_COMBINING = [

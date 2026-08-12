@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import readline from "node:readline";
 import { PassThrough } from "node:stream";
 import { StringDecoder } from "node:string_decoder";

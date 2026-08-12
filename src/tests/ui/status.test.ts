@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import type { ShellUse } from "@microsoft/shell-use/test";
 import type { Shell } from "@microsoft/shell-use";
 import { closeSession, startSession, startShell } from "./helpers";

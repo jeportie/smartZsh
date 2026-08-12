@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { wcswidth } from "../utils/unicode.js";
 import { Shell } from "../utils/shell.js";
 import { getShellWhitespaceEscapeChar } from "./utils.js";

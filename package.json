@@ -25,8 +25,8 @@
     "test:coverage": "vitest --coverage --run",
     "e2e": "vitest --run --config vitest.e2e.config.ts",
     "e2e:gen": "vitest --run --config vitest.e2e.config.ts",
-    "lint": "eslint src/ --ext .ts,.tsx && prettier src/ --check",
-    "lint:fix": "eslint src/ --ext .ts,.tsx --fix && prettier src/ --write",
+    "lint": "eslint .",
+    "format": "prettier . --write",
     "debug": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --inspect --import=tsx src/index.ts -V"
   },
   "repository": {
@@ -60,6 +60,7 @@
     "wrap-ansi": "^8.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@microsoft/shell-use": "^0.0.1-beta.6",
     "@tsconfig/node18": "^18.2.2",
     "@types/color-convert": "^2.0.3",
@@ -67,21 +68,19 @@
     "@types/react": "^18.2.24",
     "@types/wcwidth": "^1.0.2",
     "@types/which": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^6.7.4",
-    "@typescript-eslint/parser": "^6.7.4",
     "@vitest/coverage-v8": "^2.1.9",
     "@withfig/autocomplete-types": "^1.28.0",
     "@xterm/xterm": "^6.0.0",
     "esbuild": "^0.27.2",
-    "eslint": "^8.51.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-header": "^3.1.1",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^9.1.2",
+    "globals": "^17.11.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "3.0.3",
     "tsx": "^4.19.1",
     "typescript": "^5.2.2",
+    "typescript-eslint": "^8.67.0",
     "vitest": "^2.1.9"
   },
   "lint-staged": {

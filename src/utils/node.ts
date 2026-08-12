@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import path from "node:path";
 import url from "node:url";
 import fsAsync from "node:fs/promises";
