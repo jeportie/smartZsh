@@ -84,7 +84,7 @@ packaging. Behaviour for the zsh/macOS/WezTerm path is unchanged; everything els
 | `src/utils/constants.ts` | Remove `win32` guards in XDG resolution. |
 | `src/ui/stdioProxy.ts` + `src/utils/ansi.ts` | Remove win32 input-mode handling (`enableWin32InputMode`/`disableWin32InputMode`). **Keep** kitty/xterm handling — WezTerm relies on it. |
 | `src/isterm/commandManager.ts` | Remove the pwsh/powershell-only inline-suggestion detection in `_isSuggestion`. |
-| `src/utils/node.ts` | Remove SEA `unpackResources` / data-dir asset unpacking (dead once packaging is dropped; shell files load directly from the repo). |
+| `src/utils/node.ts` | Keep `unpackResources`' local-copy logic (it populates the data dir on non-SEA installs) but remove the SEA-only branches; resolve `shell/` + fig specs from the **package root** (`import.meta.url`) instead of `process.cwd()`, so a linked install works from any directory. |
 | `src/commands/complete.ts` | Default shell = zsh; remove `win32 ? Cmd : Bash`. Plan greps for any residual `win32`/`Cmd`/`Bash` defaults elsewhere. |
 
 ### 5.3 Rebrand (user-facing only)
