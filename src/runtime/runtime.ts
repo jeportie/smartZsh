@@ -8,6 +8,7 @@ import { pathToFileURL } from "node:url";
 import { parseCommand, CommandToken } from "./parser.js";
 import { applyCommandIcon, CommandIcons, getArgDrivenRecommendation, getSubcommandDrivenRecommendation, NerdFontIcons, SuggestionIcons } from "./suggestion.js";
 import { Suggestion, SuggestionBlob } from "./model.js";
+import { isInstalledCommand } from "./installedCommands.js";
 import { buildExecuteShellCommand, resolveCwd } from "./utils.js";
 import { Shell } from "../utils/shell.js";
 import { aliasExpand, getAliasNames } from "./alias.js";
@@ -433,7 +434,7 @@ const runSubcommand = async (
 };
 
 const runCommand = async (token: CommandToken): Promise<SuggestionBlob | undefined> => {
-  const specs = prefixMatches(specNames, token.token);
+  const specs = prefixMatches(specNames, token.token).filter(isInstalledCommand);
   const aliases = prefixMatches(getAliasNames(), token.token);
   return {
     suggestions: [
