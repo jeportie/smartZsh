@@ -1,7 +1,8 @@
+import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { parseHistory, resolveHistfile } from "../../runtime/history.js";
+import { clearHistoryCache, loadHistory, parseHistory, resolveHistfile } from "../../runtime/history.js";
 
 describe("parseHistory", () => {
   test("returns plain lines newest-first, dropping blanks", () => {
@@ -41,5 +42,36 @@ describe("resolveHistfile", () => {
   test("falls back to ~/.zsh_history when nothing is configured", () => {
     delete process.env.HISTFILE;
     expect(resolveHistfile({})).toBe(path.join(os.homedir(), ".zsh_history"));
+  });
+});
+
+describe("loadHistory", () => {
+  let tmpDir: string;
+  beforeEach(() => {
+    clearHistoryCache();
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "smz-hist-"));
+  });
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test("reads and parses the history file", async () => {
+    const histfile = path.join(tmpDir, "history");
+    fs.writeFileSync(histfile, "echo a\nls\n");
+    expect(await loadHistory({ history: { path: histfile } })).toEqual(["ls", "echo a"]);
+  });
+
+  test("returns an empty list when the file is missing", async () => {
+    const histfile = path.join(tmpDir, "does-not-exist");
+    expect(await loadHistory({ history: { path: histfile } })).toEqual([]);
+  });
+
+  test("caches results, returning the same list after the file is deleted", async () => {
+    const histfile = path.join(tmpDir, "history");
+    fs.writeFileSync(histfile, "echo a\nls\n");
+    const first = await loadHistory({ history: { path: histfile } });
+    fs.rmSync(histfile);
+    const second = await loadHistory({ history: { path: histfile } });
+    expect(second).toBe(first);
   });
 });
