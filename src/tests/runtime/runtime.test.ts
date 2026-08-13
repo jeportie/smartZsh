@@ -93,11 +93,11 @@ const getCommandSuggestionsCleanup = async () => {
 };
 
 const commandSuggestionsData = [
-  { name: "gi", command: "gi", maxSuggestions: 2, expectedNames: ["gibo", "git"], expectedIcons: [NerdFontIcons.terminal, NerdFontIcons.git] }, // gibo unmapped → terminal glyph; git → git glyph
+  { name: "gi", command: "gi", maxSuggestions: 20, expectedNames: ["git"], notExpectedNames: ["git-profile"], expectedIcons: [NerdFontIcons.git] }, // installed git kept; uninstalled fig spec git-profile filtered out
 ];
 
 describe(`getCommandSuggestions`, () => {
-  commandSuggestionsData.forEach(({ command, name, maxSuggestions, expectedNames, expectedIcons }) => {
+  commandSuggestionsData.forEach(({ command, name, maxSuggestions, expectedNames, notExpectedNames, expectedIcons }) => {
     test(name, async () => {
       const suggestions = await getSuggestions(command, process.cwd(), Shell.Zsh);
       if (suggestions != null && suggestions.suggestions != null) {
@@ -106,6 +106,7 @@ describe(`getCommandSuggestions`, () => {
       const names = suggestions?.suggestions.map((s) => s.allNames).flat() ?? [];
       const icons = suggestions?.suggestions.map((s) => s.icon) ?? [];
       expect(names).toEqual(expect.arrayContaining(expectedNames ?? []));
+      if (notExpectedNames != null) expect(names).not.toEqual(expect.arrayContaining(notExpectedNames));
       expect(icons).toEqual(expect.arrayContaining(expectedIcons ?? []));
     });
   });

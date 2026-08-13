@@ -12,3 +12,4 @@ AREA ∈ `PTY, SHELL, RENDER, SPECS, CLI, UI, E2E, CI, DOCS, BUILD, AGENTS, DX`.
 
 - [ ] CF-001 | RENDER | per-command Nerd-Font devicons in autocomplete suggestions | STATUS=OPEN | reported_by=jeportie | GH=n/a (issues disabled)
 - [ ] CF-002 | RENDER | expand the CommandIcons map beyond the 13 verified overlaps (python, go, rust, vim, ssh, brew, …) with verified Nerd-Font codepoints | STATUS=OPEN | reported_by=jeportie | GH=n/a (issues disabled)
+- [ ] CF-003 | SPECS | filter bare-command suggestions to installed commands so phantom fig-spec names (git-profile, git-flow, …) stop appearing | STATUS=OPEN | reported_by=jeportie | GH=n/a (issues disabled)
