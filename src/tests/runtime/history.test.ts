@@ -12,4 +12,8 @@ describe("parseHistory", () => {
   test("dedupes commands keeping the most recent occurrence", () => {
     expect(parseHistory("ls\necho a\nls\n")).toEqual(["ls", "echo a"]);
   });
+
+  test("joins backslash-continued lines into one entry", () => {
+    expect(parseHistory("echo one\\\ntwo\n")).toEqual(["echo one\ntwo"]);
+  });
 });
