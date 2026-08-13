@@ -93,7 +93,7 @@ const getCommandSuggestionsCleanup = async () => {
 };
 
 const commandSuggestionsData = [
-  { name: "gi", command: "gi", maxSuggestions: 2, expectedNames: ["gibo", "git"], expectedIcons: [SuggestionIcons.Subcommand] }, // subcommand generator
+  { name: "gi", command: "gi", maxSuggestions: 2, expectedNames: ["gibo", "git"], expectedIcons: [SuggestionIcons.Subcommand, NerdFontIcons.git] }, // subcommand generator
 ];
 
 describe(`getCommandSuggestions`, () => {
