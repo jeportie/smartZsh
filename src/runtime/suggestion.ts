@@ -57,6 +57,29 @@ export const NerdFontIcons = {
   yarn: "\ue8ec",
 };
 
+export const CommandIcons: Record<string, string> = {
+  git: NerdFontIcons.git,
+  docker: NerdFontIcons.docker,
+  "docker-compose": NerdFontIcons.docker,
+  node: NerdFontIcons.node,
+  npm: NerdFontIcons.npm,
+  npx: NerdFontIcons.npm,
+  yarn: NerdFontIcons.yarn,
+  gradle: NerdFontIcons.gradle,
+  kubectl: NerdFontIcons.kubernetes,
+  helm: NerdFontIcons.kubernetes,
+  aws: NerdFontIcons.aws,
+  gcloud: NerdFontIcons.gcloud,
+  az: NerdFontIcons.azure,
+};
+
+export const applyCommandIcon = (suggestions: Suggestion[], rootCommand: string, useNerdFont: boolean): Suggestion[] => {
+  if (!useNerdFont) return suggestions;
+  const glyph = CommandIcons[rootCommand];
+  if (glyph == null) return suggestions;
+  return suggestions.map((s) => (s.icon === SuggestionIcons.Subcommand ? { ...s, icon: glyph } : s));
+};
+
 const getIcon = (icon: string | undefined, suggestionType: Fig.SuggestionType | undefined): string => {
   // eslint-disable-next-line no-control-regex
   if (icon && /[^\u0000-\u00ff]/.test(icon)) {
