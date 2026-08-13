@@ -76,7 +76,9 @@
     "nvmrc",
     "rebranded",
     "devicon",
-    "devicons"
+    "devicons",
+    "codepoints",
+    "totallyunknown"
   ],
   "ignorePaths": ["node_modules/**", "build/**", "coverage/**", "**/*.snap", "package-lock.json", "docs/superpowers/**", "src/tests/fixtures/**", ".claude/**"]
 }
