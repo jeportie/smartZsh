@@ -2,7 +2,7 @@ import fs from "node:fs";
 
 import { getSuggestions } from "../../runtime/runtime.js";
 import { Shell } from "../../utils/shell.js";
-import { SuggestionIcons } from "../../runtime/suggestion.js";
+import { NerdFontIcons, SuggestionIcons } from "../../runtime/suggestion.js";
 import { unpackResources } from "../../utils/node.js";
 
 const testData = [
@@ -55,7 +55,7 @@ const subcommandSuggestionsData = [
     expectedNames: ["mullvad-browser"],
     expectedIcons: ["🍺"],
   },
-  { name: "gitStat", command: "git stat", maxSuggestions: 1, expectedNames: ["status"], expectedIcons: [SuggestionIcons.Subcommand] }, // subcommand generator
+  { name: "gitStat", command: "git stat", maxSuggestions: 1, expectedNames: ["status"], expectedIcons: [NerdFontIcons.git] }, // subcommand generator
   { name: "gitStatus", command: "git status ", expectedNames: ["demo.ts"] }, // script + post-process generator
   { name: "ls", command: "ls ", expectedNames: ["package.json"], expectedIcons: [SuggestionIcons.File] }, // file generator
   { name: "cd", command: "cd ", expectedNames: ["docs/"], expectedIcons: [SuggestionIcons.Folder] }, // folder generator
