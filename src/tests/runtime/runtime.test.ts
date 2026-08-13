@@ -1,8 +1,11 @@
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 import { getSuggestions } from "../../runtime/runtime.js";
 import { Shell } from "../../utils/shell.js";
 import { NerdFontIcons, SuggestionIcons } from "../../runtime/suggestion.js";
+import { clearHistoryCache, loadHistory } from "../../runtime/history.js";
 import { unpackResources } from "../../utils/node.js";
 
 const testData = [
@@ -108,5 +111,34 @@ describe(`getCommandSuggestions`, () => {
       expect(names).toEqual(expect.arrayContaining(expectedNames ?? []));
       expect(icons).toEqual(expect.arrayContaining(expectedIcons ?? []));
     });
+  });
+});
+
+describe(`getHistoryCommandSuggestions`, () => {
+  let tmpDir: string;
+  beforeEach(async () => {
+    clearHistoryCache();
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "smz-hist-"));
+    const histfile = path.join(tmpDir, "history");
+    fs.writeFileSync(histfile, 'git commit -m "x"\n');
+    await loadHistory({ history: { path: histfile } });
+  });
+  afterEach(() => {
+    clearHistoryCache();
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test("includes a full-line history suggestion for the typed prefix", async () => {
+    const suggestions = await getSuggestions("git", process.cwd(), Shell.Zsh);
+    expect(suggestions?.suggestions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'git commit -m "x"',
+          insertValue: 'git commit -m "x" ',
+          icon: NerdFontIcons.history,
+          priority: 70,
+        }),
+      ]),
+    );
   });
 });
