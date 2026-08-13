@@ -28,6 +28,7 @@ type Config = {
   };
   useAliases: boolean;
   useNerdFont: boolean;
+  history: { import: boolean; path?: string; max?: number };
   maxSuggestions?: number;
   activeSuggestionBackgroundColor: string;
 };
@@ -80,6 +81,15 @@ const configSchema = {
       nullable: true,
       default: false,
     },
+    history: {
+      type: "object",
+      nullable: true,
+      properties: {
+        import: { type: "boolean", nullable: true },
+        path: { type: "string", nullable: true },
+        max: { type: "number", nullable: true },
+      },
+    },
     maxSuggestions: {
       type: "number",
       nullable: true,
@@ -112,6 +122,7 @@ let globalConfig: Config = {
   },
   useAliases: false,
   useNerdFont: true,
+  history: { import: true, max: 10000 },
   activeSuggestionBackgroundColor: "#7D56F4",
 };
 
@@ -142,6 +153,11 @@ export const loadConfig = async (program: Command) => {
         },
         useAliases: config.useAliases ?? false,
         useNerdFont: config?.useNerdFont ?? true,
+        history: {
+          import: config?.history?.import ?? true,
+          path: config?.history?.path,
+          max: config?.history?.max ?? 10000,
+        },
         maxSuggestions: config?.maxSuggestions ?? 5,
         activeSuggestionBackgroundColor: config?.activeSuggestionBackgroundColor ?? "#7D56F4",
       };
