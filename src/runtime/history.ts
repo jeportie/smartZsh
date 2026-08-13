@@ -2,6 +2,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
+import { getConfig } from "../utils/config.js";
+import { Suggestion } from "./model.js";
+import { NerdFontIcons, SuggestionIcons } from "./suggestion.js";
+
 let historyCache: string[] | undefined;
 
 export const resolveHistfile = (config: { history?: { path?: string } }): string => {
@@ -36,6 +40,19 @@ const joinContinuations = (raw: string): string[] => {
   }
   if (buffer !== undefined) logical.push(buffer);
   return logical;
+};
+
+export const getHistorySuggestions = (input: string, max: number): Suggestion[] => {
+  if (!input) return [];
+  const icon = getConfig().useNerdFont ? NerdFontIcons.history : SuggestionIcons.History;
+  const suggestions: Suggestion[] = [];
+  for (const line of historyCache ?? []) {
+    if (suggestions.length >= max) break;
+    if (line === input || !line.startsWith(input)) continue;
+    const name = line.replace(/\n/g, " ");
+    suggestions.push({ name, allNames: [name], insertValue: `${name} `, icon, priority: 70 });
+  }
+  return suggestions;
 };
 
 export const parseHistory = (raw: string): string[] => {
