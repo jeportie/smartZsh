@@ -157,6 +157,7 @@ export const CommandIcons: Record<string, string> = {
   systemctl: NerdFontIcons.gear,
   // system / db
   htop: NerdFontIcons.cpu,
+  btop: NerdFontIcons.cpu,
   top: NerdFontIcons.cpu,
   psql: NerdFontIcons.database,
   mysql: NerdFontIcons.database,
