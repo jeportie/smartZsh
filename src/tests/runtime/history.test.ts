@@ -2,7 +2,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { clearHistoryCache, loadHistory, parseHistory, resolveHistfile } from "../../runtime/history.js";
+import { clearHistoryCache, getHistorySuggestions, loadHistory, parseHistory, resolveHistfile } from "../../runtime/history.js";
+import { NerdFontIcons } from "../../runtime/suggestion.js";
 
 describe("parseHistory", () => {
   test("returns plain lines newest-first, dropping blanks", () => {
@@ -73,5 +74,41 @@ describe("loadHistory", () => {
     fs.rmSync(histfile);
     const second = await loadHistory({ history: { path: histfile } });
     expect(second).toBe(first);
+  });
+});
+
+describe("getHistorySuggestions", () => {
+  let tmpDir: string;
+  beforeEach(async () => {
+    clearHistoryCache();
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "smz-hist-"));
+    const histfile = path.join(tmpDir, "history");
+    fs.writeFileSync(histfile, 'ls\ngit status\ngit commit -m "x"\n');
+    await loadHistory({ history: { path: histfile } });
+  });
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test("returns matching entries newest-first", () => {
+    expect(getHistorySuggestions("git", 10).map((s) => s.name)).toEqual(['git commit -m "x"', "git status"]);
+  });
+
+  test("excludes an entry exactly equal to the input", () => {
+    expect(getHistorySuggestions("git status", 10)).toEqual([]);
+  });
+
+  test("caps the number of suggestions at max", () => {
+    expect(getHistorySuggestions("git", 1)).toHaveLength(1);
+  });
+
+  test("builds the insertion shape with the history glyph", () => {
+    expect(getHistorySuggestions("git", 10)[0]).toMatchObject({
+      name: 'git commit -m "x"',
+      allNames: ['git commit -m "x"'],
+      insertValue: 'git commit -m "x" ',
+      priority: 70,
+      icon: NerdFontIcons.history,
+    });
   });
 });

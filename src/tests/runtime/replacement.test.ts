@@ -38,6 +38,11 @@ describe("calculateReplacement", () => {
       insertText: "status --short",
     });
   });
+  test("history full-line insertValue backspaces the typed prefix and inserts the whole line", () => {
+    expect(
+      calculateReplacement(makeToken({ token: "git", tokenLength: 3 }), makeSuggestion({ name: 'git commit -m "x"', insertValue: 'git commit -m "x" ' })),
+    ).toEqual({ backspaceCount: 3, insertText: 'git commit -m "x" ' });
+  });
   test("divergent text backspaces entire token", () => {
     expect(calculateReplacement(makeToken({ token: "comit", tokenLength: 5 }), makeSuggestion({ name: "commit" }))).toEqual({
       backspaceCount: 5,

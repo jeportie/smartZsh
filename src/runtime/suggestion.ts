@@ -19,6 +19,7 @@ export enum SuggestionIcons {
   Mixin = "🏝️",
   Shortcut = "🔥",
   Special = "⭐",
+  History = "🕘",
   Default = "📀",
 }
 export const NerdFontIcons = {
@@ -76,6 +77,7 @@ export const NerdFontIcons = {
   java: "\ue738",
   vim: "\ue62b",
   linux: "\ue712",
+  history: "\uf1da",
 };
 
 /* cspell:disable */
