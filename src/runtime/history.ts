@@ -1,8 +1,25 @@
+import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
+let historyCache: string[] | undefined;
+
 export const resolveHistfile = (config: { history?: { path?: string } }): string => {
   return config.history?.path ?? process.env.HISTFILE ?? path.join(os.homedir(), ".zsh_history");
+};
+
+export const clearHistoryCache = (): void => {
+  historyCache = undefined;
+};
+
+export const loadHistory = async (config: { history?: { path?: string } }): Promise<string[]> => {
+  if (historyCache !== undefined) return historyCache;
+  try {
+    historyCache = parseHistory(await fs.promises.readFile(resolveHistfile(config), "utf8"));
+  } catch {
+    historyCache = [];
+  }
+  return historyCache;
 };
 
 const joinContinuations = (raw: string): string[] => {
