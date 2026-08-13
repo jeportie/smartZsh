@@ -6,7 +6,7 @@ import figSpecList, {
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { parseCommand, CommandToken } from "./parser.js";
-import { applyCommandIcon, CommandIcons, getArgDrivenRecommendation, getSubcommandDrivenRecommendation, SuggestionIcons } from "./suggestion.js";
+import { applyCommandIcon, CommandIcons, getArgDrivenRecommendation, getSubcommandDrivenRecommendation, NerdFontIcons, SuggestionIcons } from "./suggestion.js";
 import { Suggestion, SuggestionBlob } from "./model.js";
 import { buildExecuteShellCommand, resolveCwd } from "./utils.js";
 import { Shell } from "../utils/shell.js";
@@ -453,7 +453,7 @@ const runCommand = async (token: CommandToken): Promise<SuggestionBlob | undefin
             name: spec,
             type: "subcommand",
             allNames: [spec],
-            icon: (getConfig().useNerdFont ? CommandIcons[spec] : undefined) ?? SuggestionIcons.Subcommand,
+            icon: getConfig().useNerdFont ? CommandIcons[spec] ?? NerdFontIcons.terminal : SuggestionIcons.Subcommand,
             priority: 40,
           }) as Suggestion,
       ),
