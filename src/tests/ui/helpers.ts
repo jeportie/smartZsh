@@ -14,6 +14,7 @@ export const configs: ShellConfig[] = [{ label: "zsh", shell: "zsh" }];
 export const returnChar = (shell: string) => (shell == "xonsh" ? "\n" : "\r");
 
 const cleanZshFixtureDir = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..", "fixtures", "cleanzsh");
+export const historyFixturePath = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..", "fixtures", "zsh_history");
 const buildEntry = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..", "..", "..", "build", "index.js");
 
 const expectTextTimeout = 30_000;
@@ -35,7 +36,7 @@ export const closeSession = async (terminal: ShellUse | undefined): Promise<void
 
 // npm link installs the `smartzsh` bin alongside the node running these tests, so make it resolvable
 const nodeBinDir = path.dirname(process.execPath);
-const baseEnv = { ISTERM: "0", ISTERM_TESTING: "0", ZDOTDIR: cleanZshFixtureDir, PATH: `${nodeBinDir}:${process.env.PATH ?? ""}` };
+const baseEnv = { ISTERM: "0", ISTERM_TESTING: "0", ZDOTDIR: cleanZshFixtureDir, HISTFILE: "/dev/null", PATH: `${nodeBinDir}:${process.env.PATH ?? ""}` };
 const ephemeralTerminal = (): ShellUse => {
   const terminal = ShellUse.ephemeral(undefined, { timeouts });
   trackTerminal(terminal);
