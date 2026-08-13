@@ -8,4 +8,8 @@ describe("parseHistory", () => {
   test("strips the extended-history timestamp prefix", () => {
     expect(parseHistory(": 1700000000:0;echo a\n: 1700000001:5;ls\n")).toEqual(["ls", "echo a"]);
   });
+
+  test("dedupes commands keeping the most recent occurrence", () => {
+    expect(parseHistory("ls\necho a\nls\n")).toEqual(["ls", "echo a"]);
+  });
 });
