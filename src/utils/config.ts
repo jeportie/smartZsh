@@ -111,7 +111,7 @@ let globalConfig: Config = {
     path: [],
   },
   useAliases: false,
-  useNerdFont: false,
+  useNerdFont: true,
   activeSuggestionBackgroundColor: "#7D56F4",
 };
 
@@ -141,7 +141,7 @@ export const loadConfig = async (program: Command) => {
           path: [...(config?.specs?.path ?? [])],
         },
         useAliases: config.useAliases ?? false,
-        useNerdFont: config?.useNerdFont ?? false,
+        useNerdFont: config?.useNerdFont ?? true,
         maxSuggestions: config?.maxSuggestions ?? 5,
         activeSuggestionBackgroundColor: config?.activeSuggestionBackgroundColor ?? "#7D56F4",
       };
