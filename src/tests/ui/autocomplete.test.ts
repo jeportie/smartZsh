@@ -1,6 +1,6 @@
 import { terminalSnapshot } from "@microsoft/shell-use/test";
 import type { ShellUse } from "@microsoft/shell-use/test";
-import { closeSession, configs, expectPrompt, returnChar, startSession } from "./helpers";
+import { closeSession, configs, expectPrompt, historyFixturePath, returnChar, startSession } from "./helpers";
 
 const accent = "#7d56f4";
 
@@ -176,15 +176,12 @@ configs.map((config) => {
       await terminal.expectText("archive", { strict: false });
     });
 
-    test.skip("access history when no suggestions exist", async () => {
-      await terminal.type("clear");
-      await terminal.expectText("clear");
+    test("history entries appear as suggestions for the typed prefix", async () => {
+      await closeSession(terminal);
+      terminal = await startSession({ ...config, env: { HISTFILE: historyFixturePath } }, args);
 
-      await terminal.write(rc);
-      await terminal.expectText("clear", { not: true });
-
-      await terminal.press("Up");
-      await terminal.expectText("clear");
+      await terminal.type("git");
+      await terminal.expectText("recall me", { strict: false });
     });
 
     test("proper overflow truncation in command", async () => {

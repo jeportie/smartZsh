@@ -19,6 +19,7 @@ export enum SuggestionIcons {
   Mixin = "🏝️",
   Shortcut = "🔥",
   Special = "⭐",
+  History = "🕘",
   Default = "📀",
 }
 export const NerdFontIcons = {
@@ -76,6 +77,7 @@ export const NerdFontIcons = {
   java: "\ue738",
   vim: "\ue62b",
   linux: "\ue712",
+  history: "\uf1da",
 };
 
 /* cspell:disable */
@@ -414,7 +416,7 @@ const removeAcceptedSuggestions = (suggestions: Suggestion[], acceptedTokens: Co
   return suggestions.filter((s) => s.allNames.every((n) => !seen.has(n)));
 };
 
-const removeDuplicateSuggestion = (suggestions: Suggestion[]): Suggestion[] => {
+export const removeDuplicateSuggestion = (suggestions: Suggestion[]): Suggestion[] => {
   const seen = new Set<string>();
   return suggestions
     .map((s) => {
