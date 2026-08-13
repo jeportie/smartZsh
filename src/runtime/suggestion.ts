@@ -55,6 +55,123 @@ export const NerdFontIcons = {
   twitter: "\uf099",
   vercel: "\ue8d3",
   yarn: "\ue8ec",
+  // extra command + tool icons (verified nerd-font codepoints)
+  terminal: "\ue795",
+  trash: "\uea81",
+  broom: "\uede4",
+  folder: "\ue5ff",
+  file: "\uf1c9",
+  list: "\uf03a",
+  search: "\uf002",
+  download: "\uf019",
+  key: "\uf084",
+  archive: "\uf187",
+  beer: "\uf0fc",
+  gear: "\uf013",
+  cloud: "\uf0c2",
+  python: "\ue73c",
+  go: "\ue724",
+  rust: "\ue7a8",
+  ruby: "\ue739",
+  java: "\ue738",
+  vim: "\ue62b",
+  linux: "\ue712",
+};
+
+/* cspell:disable */
+export const CommandIcons: Record<string, string> = {
+  // vcs / forge
+  git: NerdFontIcons.git,
+  gh: NerdFontIcons.github,
+  github: NerdFontIcons.github,
+  gitlab: NerdFontIcons.gitlab,
+  // containers / orchestration
+  docker: NerdFontIcons.docker,
+  "docker-compose": NerdFontIcons.docker,
+  podman: NerdFontIcons.docker,
+  kubectl: NerdFontIcons.kubernetes,
+  helm: NerdFontIcons.kubernetes,
+  k9s: NerdFontIcons.kubernetes,
+  minikube: NerdFontIcons.kubernetes,
+  // node ecosystem
+  node: NerdFontIcons.node,
+  npm: NerdFontIcons.npm,
+  npx: NerdFontIcons.npm,
+  pnpm: NerdFontIcons.npm,
+  yarn: NerdFontIcons.yarn,
+  bun: NerdFontIcons.node,
+  deno: NerdFontIcons.node,
+  // languages / build
+  python: NerdFontIcons.python,
+  python3: NerdFontIcons.python,
+  pip: NerdFontIcons.python,
+  pip3: NerdFontIcons.python,
+  go: NerdFontIcons.go,
+  cargo: NerdFontIcons.rust,
+  rustc: NerdFontIcons.rust,
+  rustup: NerdFontIcons.rust,
+  ruby: NerdFontIcons.ruby,
+  gem: NerdFontIcons.ruby,
+  bundle: NerdFontIcons.ruby,
+  java: NerdFontIcons.java,
+  mvn: NerdFontIcons.java,
+  gradle: NerdFontIcons.gradle,
+  make: NerdFontIcons.gear,
+  cmake: NerdFontIcons.gear,
+  // editors
+  vim: NerdFontIcons.vim,
+  nvim: NerdFontIcons.vim,
+  vi: NerdFontIcons.vim,
+  // cloud
+  aws: NerdFontIcons.aws,
+  gcloud: NerdFontIcons.gcloud,
+  az: NerdFontIcons.azure,
+  // shell / file ops
+  cd: NerdFontIcons.folder,
+  pushd: NerdFontIcons.folder,
+  popd: NerdFontIcons.folder,
+  mkdir: NerdFontIcons.folder,
+  ls: NerdFontIcons.list,
+  ll: NerdFontIcons.list,
+  eza: NerdFontIcons.list,
+  exa: NerdFontIcons.list,
+  cat: NerdFontIcons.file,
+  bat: NerdFontIcons.file,
+  less: NerdFontIcons.file,
+  more: NerdFontIcons.file,
+  grep: NerdFontIcons.search,
+  rg: NerdFontIcons.search,
+  ag: NerdFontIcons.search,
+  find: NerdFontIcons.search,
+  fd: NerdFontIcons.search,
+  rm: NerdFontIcons.trash,
+  clear: NerdFontIcons.broom,
+  ssh: NerdFontIcons.key,
+  scp: NerdFontIcons.key,
+  curl: NerdFontIcons.download,
+  wget: NerdFontIcons.download,
+  tar: NerdFontIcons.archive,
+  zip: NerdFontIcons.archive,
+  unzip: NerdFontIcons.archive,
+  brew: NerdFontIcons.beer,
+  systemctl: NerdFontIcons.gear,
+  // system / db
+  htop: NerdFontIcons.cpu,
+  btop: NerdFontIcons.cpu,
+  top: NerdFontIcons.cpu,
+  psql: NerdFontIcons.database,
+  mysql: NerdFontIcons.database,
+  sqlite3: NerdFontIcons.database,
+  redis: NerdFontIcons.database,
+  "redis-cli": NerdFontIcons.database,
+};
+/* cspell:enable */
+
+export const applyCommandIcon = (suggestions: Suggestion[], rootCommand: string, useNerdFont: boolean): Suggestion[] => {
+  if (!useNerdFont) return suggestions;
+  const glyph = CommandIcons[rootCommand];
+  if (glyph == null) return suggestions;
+  return suggestions.map((s) => (s.icon === SuggestionIcons.Subcommand ? { ...s, icon: glyph } : s));
 };
 
 const getIcon = (icon: string | undefined, suggestionType: Fig.SuggestionType | undefined): string => {
