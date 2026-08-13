@@ -416,7 +416,7 @@ const removeAcceptedSuggestions = (suggestions: Suggestion[], acceptedTokens: Co
   return suggestions.filter((s) => s.allNames.every((n) => !seen.has(n)));
 };
 
-const removeDuplicateSuggestion = (suggestions: Suggestion[]): Suggestion[] => {
+export const removeDuplicateSuggestion = (suggestions: Suggestion[]): Suggestion[] => {
   const seen = new Set<string>();
   return suggestions
     .map((s) => {

@@ -6,9 +6,18 @@ import figSpecList, {
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { parseCommand, CommandToken } from "./parser.js";
-import { applyCommandIcon, CommandIcons, getArgDrivenRecommendation, getSubcommandDrivenRecommendation, NerdFontIcons, SuggestionIcons } from "./suggestion.js";
+import {
+  applyCommandIcon,
+  CommandIcons,
+  getArgDrivenRecommendation,
+  getSubcommandDrivenRecommendation,
+  NerdFontIcons,
+  removeDuplicateSuggestion,
+  SuggestionIcons,
+} from "./suggestion.js";
 import { Suggestion, SuggestionBlob } from "./model.js";
 import { isInstalledCommand } from "./installedCommands.js";
+import { getHistorySuggestions } from "./history.js";
 import { buildExecuteShellCommand, resolveCwd } from "./utils.js";
 import { Shell } from "../utils/shell.js";
 import { aliasExpand, getAliasNames } from "./alias.js";
@@ -434,31 +443,31 @@ const runSubcommand = async (
 };
 
 const runCommand = async (token: CommandToken): Promise<SuggestionBlob | undefined> => {
-  const specs = prefixMatches(specNames, token.token).filter(isInstalledCommand);
-  const aliases = prefixMatches(getAliasNames(), token.token);
+  const aliases = prefixMatches(getAliasNames(), token.token).map(
+    (alias) =>
+      ({
+        name: alias,
+        type: "shortcut",
+        allNames: [alias],
+        icon: SuggestionIcons.Shortcut,
+        priority: 100,
+      }) as Suggestion,
+  );
+  const specs = prefixMatches(specNames, token.token)
+    .filter(isInstalledCommand)
+    .map(
+      (spec) =>
+        ({
+          name: spec,
+          type: "subcommand",
+          allNames: [spec],
+          icon: getConfig().useNerdFont ? CommandIcons[spec] ?? NerdFontIcons.terminal : SuggestionIcons.Subcommand,
+          priority: 40,
+        }) as Suggestion,
+    );
+  const history = getConfig().history?.import ? getHistorySuggestions(token.token, getConfig().history?.max ?? 10000) : [];
   return {
-    suggestions: [
-      ...aliases.map(
-        (alias) =>
-          ({
-            name: alias,
-            type: "shortcut",
-            allNames: [alias],
-            icon: SuggestionIcons.Shortcut,
-            priority: 100,
-          }) as Suggestion,
-      ),
-      ...specs.map(
-        (spec) =>
-          ({
-            name: spec,
-            type: "subcommand",
-            allNames: [spec],
-            icon: getConfig().useNerdFont ? CommandIcons[spec] ?? NerdFontIcons.terminal : SuggestionIcons.Subcommand,
-            priority: 40,
-          }) as Suggestion,
-      ),
-    ],
+    suggestions: removeDuplicateSuggestion([...aliases, ...history, ...specs].sort((a, b) => b.priority - a.priority)),
     activeToken: token,
   };
 };
