@@ -1,4 +1,7 @@
-import { parseHistory } from "../../runtime/history.js";
+import os from "node:os";
+import path from "node:path";
+
+import { parseHistory, resolveHistfile } from "../../runtime/history.js";
 
 describe("parseHistory", () => {
   test("returns plain lines newest-first, dropping blanks", () => {
@@ -15,5 +18,28 @@ describe("parseHistory", () => {
 
   test("joins backslash-continued lines into one entry", () => {
     expect(parseHistory("echo one\\\ntwo\n")).toEqual(["echo one\ntwo"]);
+  });
+});
+
+describe("resolveHistfile", () => {
+  const originalHistfile = process.env.HISTFILE;
+  afterEach(() => {
+    if (originalHistfile === undefined) delete process.env.HISTFILE;
+    else process.env.HISTFILE = originalHistfile;
+  });
+
+  test("prefers the configured history path over the environment", () => {
+    process.env.HISTFILE = "/env/histfile";
+    expect(resolveHistfile({ history: { path: "/config/histfile" } })).toBe("/config/histfile");
+  });
+
+  test("falls back to the HISTFILE environment variable", () => {
+    process.env.HISTFILE = "/env/histfile";
+    expect(resolveHistfile({})).toBe("/env/histfile");
+  });
+
+  test("falls back to ~/.zsh_history when nothing is configured", () => {
+    delete process.env.HISTFILE;
+    expect(resolveHistfile({})).toBe(path.join(os.homedir(), ".zsh_history"));
   });
 });

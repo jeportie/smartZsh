@@ -1,3 +1,10 @@
+import os from "node:os";
+import path from "node:path";
+
+export const resolveHistfile = (config: { history?: { path?: string } }): string => {
+  return config.history?.path ?? process.env.HISTFILE ?? path.join(os.homedir(), ".zsh_history");
+};
+
 const joinContinuations = (raw: string): string[] => {
   const logical: string[] = [];
   let buffer: string | undefined;
